@@ -7,6 +7,7 @@ exports.up = (knex) => {
       table.string('name');
       table.string('avatarUrl');
       table.timestamps(true, true);
+      table.string('role')
     });
 };
 
