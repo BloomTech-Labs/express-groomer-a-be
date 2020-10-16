@@ -8,7 +8,7 @@ const profiles = [...new Array(5)].map((i, idx) => ({
     idx === 0
       ? 'Test001 User'
       : `${faker.name.firstName()} ${faker.name.lastName()}`,
-  role: 'None',
+  role: 'groomer' || 'customer',
 }));
 
 exports.seed = function (knex) {
