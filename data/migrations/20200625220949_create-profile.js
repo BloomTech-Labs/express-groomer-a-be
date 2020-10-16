@@ -7,10 +7,9 @@ exports.up = (knex) => {
       table.string('name');
       table.string('avatarUrl');
       table.timestamps(true, true);
-      table.string('role')
+      table.string('role').notNullable();
     });
 };
-
 exports.down = (knex) => {
   return knex.schema.dropTableIfExists('profiles');
 };
