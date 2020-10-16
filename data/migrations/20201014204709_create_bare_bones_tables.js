@@ -14,6 +14,7 @@ exports.up = async (knex) => {
   await knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('pet_types', (table) => {
+      table.string('id').notNullable().unique().primary()
       table.string('breed').notNullable();
     });
   await knex.schema
@@ -31,9 +32,9 @@ exports.up = async (knex) => {
   await knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('groomer_services', (table) => {
-      table.string('groomer_id').references('id').inTable('groomers')
+      table.string('groomer_id').references('id').inTable('groomer')
       table.string('services_id').references('id').inTable('services')
-      table.int('services_price')
+      table.string('services_price');
     });
   await knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
@@ -42,12 +43,14 @@ exports.up = async (knex) => {
       table.string('pets_id').references('id').inTable('pets')
       table.string('pet_types').references('id').inTable('pet_types')
     })
-  await knex.shema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').createTable('groomer_schedule', (table) => {
-    table.string('id')
-  })
+  await knex.schema
+    .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+    .createTable('groomer_schedule', (table) => {
+      table.string('id')
+    })
 };
 
-exports.down = function (knex) {
+exports.down = async function (knex) {
   await knex.schema.dropTableIfExists("customer_pets_type");
   await knex.schema.dropTableIfExists("groomer_services");
   await knex.schema.dropTableIfExists("services");
