@@ -16,7 +16,7 @@ exports.up = async (knex) => {
     table.string('email').notNull().unique();
     table.string('given_name').notNull();
     table.string('family_name').notNull();
-    table.string('phone-number');
+    table.string('phone-number').notNull();
     table.string('address');
     table.string('city');
     table.string('state');
