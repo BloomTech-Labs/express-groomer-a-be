@@ -1,7 +1,7 @@
 exports.up = async (knex) => {
   await knex.schema.createTable('groomer', (table) => {
     table.increments('id');
-    table.string('email').notNull().unique();
+    table.bigint('user_id').references('id').inTable('profiles');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
     table.string('phone-number').notNull();
@@ -13,7 +13,7 @@ exports.up = async (knex) => {
   });
   await knex.schema.createTable('customer', (table) => {
     table.increments('id');
-    table.string('email').notNull().unique();
+    table.bigint('user_id').references('id').inTable('profiles');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
     table.string('phone-number').notNull();
