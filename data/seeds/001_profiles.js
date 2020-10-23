@@ -21,14 +21,14 @@ exports.seed = async function (knex) {
       avatarUrl: faker.image.avatar(),
       email: 'llama003@maildrop.cc',
       name: 'Test003 User',
-      role: 'customer',
+      role: 'groomer',
     },
     {
       id: '00ultwqjtqt4VCcS24x6',
       avatarUrl: faker.image.avatar(),
       email: 'llama004@maildrop.cc',
       name: 'Test004 User',
-      role: 'customer',
+      role: 'groomer',
     },
     {
       id: '00ultwz1n9ORpNFc04x6',
