@@ -5,7 +5,7 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  return await db('customer').where('id', id).first().select('*');
+  return await db('customer').where('user_id', id).first().select('*');
 };
 
 const create = async (data) => {
@@ -13,15 +13,15 @@ const create = async (data) => {
 };
 
 const update = async (id, data) => {
-  return await db('costumer')
-    .where('id', id)
+  return await db('customer')
+    .where('user_id', id)
     .first()
     .update(data)
     .returning('*');
 };
 
 const remove = async (id) => {
-  return await db('customer').where('id', id).del();
+  return await db('customer').where('user_id', id).del();
 };
 
 module.exports = {
