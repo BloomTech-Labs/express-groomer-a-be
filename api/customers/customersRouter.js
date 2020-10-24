@@ -1,9 +1,9 @@
 const express = require('express');
-//const authRequired = require('../middleware/authRequired');
+const authRequired = require('../middleware/authRequired');
 const customer = require('./customersModel.js');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', authRequired, async (req, res) => {
   try {
     const data = await customer.getAll();
     res.status(200).json(data);
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await customer.getById(req.params.id);
     res.status(200).json(data);
@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authRequired, async (req, res) => {
   try {
     //checking to see if user already exists
     const user = await customer.getById(req.body.user_id);
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authRequired, async (req, res) => {
   try {
     //checking to see if user already exists
     const user = await customer.getById(req.params.id);
@@ -57,7 +57,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authRequired, async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(404).json({ message: 'Missing required id.' });
