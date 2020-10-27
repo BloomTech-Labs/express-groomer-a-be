@@ -2,9 +2,10 @@ exports.up = async (knex) => {
   await knex.schema.createTable('groomer', (table) => {
     table.increments('id');
     table.string('user_id').references('id').inTable('profiles');
+    table.string('business_name');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
-    table.bigint('phone-number').notNull();
+    table.bigint('phone_number').notNull();
     table.string('address').notNull();
     table.string('city').notNull();
     table.string('state').notNull();
