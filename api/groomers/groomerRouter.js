@@ -3,7 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const groomer = require('./groomerModel');
 const router = express.Router();
 
-router.get('/', authRequired, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const data = await groomer.getAll();
     res.status(200).json(data);
