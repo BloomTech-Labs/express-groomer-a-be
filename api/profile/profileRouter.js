@@ -62,7 +62,7 @@ const router = express.Router();
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', authRequired, function (req, res) {
+router.get('/', function (req, res) {
   Profiles.findAll()
     .then((profiles) => {
       res.status(200).json(profiles);
@@ -108,7 +108,7 @@ router.get('/', authRequired, function (req, res) {
  *      404:
  *        description: 'Profile not found'
  */
-router.get('/:id', authRequired, function (req, res) {
+router.get('/:id', function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
     .then((profile) => {
