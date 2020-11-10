@@ -1,7 +1,7 @@
 exports.up = async (knex) => {
   await knex.schema.createTable('groomer', (table) => {
     table.increments('id');
-    table.string('user_id').references('id').inTable('profiles');
+    table.string('user_id').unique().references('id').inTable('profiles');
     table.string('business_name');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
@@ -15,7 +15,7 @@ exports.up = async (knex) => {
   });
   await knex.schema.createTable('customer', (table) => {
     table.increments('id');
-    table.string('user_id').references('id').inTable('profiles');
+    table.string('user_id').unique().references('id').inTable('profiles');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
     table.varchar('phone_number').notNull();
@@ -32,7 +32,7 @@ exports.up = async (knex) => {
   await knex.schema.createTable('pets', (table) => {
     table.increments('id');
     table.bigint('pet_types_id').references('id').inTable('pet_types');
-    table.bigint('customer_id').references('id').inTable('customer');
+    table.string('customer_id').references('user_id').inTable('customer');
     table.string('name').notNullable();
   });
   await knex.schema.createTable('services', (table) => {
@@ -40,12 +40,12 @@ exports.up = async (knex) => {
     table.string('service_name').notNullable();
   });
   await knex.schema.createTable('groomer_services', (table) => {
-    table.bigint('groomer_id').references('id').inTable('groomer');
+    table.string('groomer_id').references('user_id').inTable('groomer');
     table.bigint('services_id').references('id').inTable('services');
-    table.varchar('services_price');
+    table.decimal('services_price', 14, 2);
   });
   await knex.schema.createTable('customer_pets_type', (table) => {
-    table.bigint('customer_id').references('id').inTable('customer');
+    table.string('customer_id').references('user_id').inTable('customer');
     table.bigint('pets_id').references('id').inTable('pets');
   });
   await knex.schema.createTable('groomer_schedule', (table) => {
