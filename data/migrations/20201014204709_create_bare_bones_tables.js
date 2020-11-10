@@ -12,6 +12,7 @@ exports.up = async (knex) => {
     table.varchar('zip_code').notNull();
     table.varchar('country').notNull();
     table.varchar('about', 5000);
+    table.varchar('hours');
   });
   await knex.schema.createTable('customer', (table) => {
     table.increments('id');
