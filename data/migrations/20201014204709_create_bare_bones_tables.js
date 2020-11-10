@@ -5,28 +5,29 @@ exports.up = async (knex) => {
     table.string('business_name');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
-    table.bigint('phone_number').notNull();
-    table.string('address').notNull();
-    table.string('city').notNull();
-    table.string('state').notNull();
-    table.string('zip_code').notNull();
-    table.string('country').notNull();
+    table.varchar('phone_number').notNull();
+    table.varchar('address').notNull();
+    table.varchar('city').notNull();
+    table.varchar('state').notNull();
+    table.varchar('zip_code').notNull();
+    table.varchar('country').notNull();
+    table.varchar('about', 5000);
   });
   await knex.schema.createTable('customer', (table) => {
     table.increments('id');
     table.string('user_id').references('id').inTable('profiles');
     table.string('given_name').notNull();
     table.string('family_name').notNull();
-    table.bigint('phone_number').notNull();
-    table.string('address');
-    table.string('city');
-    table.string('state');
-    table.string('zip_code');
-    table.string('country');
+    table.varchar('phone_number').notNull();
+    table.varchar('address');
+    table.varchar('city');
+    table.varchar('state');
+    table.varchar('zip_code');
+    table.varchar('country');
   });
   await knex.schema.createTable('pet_types', (table) => {
     table.increments('id');
-    table.string('breed');
+    table.varchar('breed');
   });
   await knex.schema.createTable('pets', (table) => {
     table.increments('id');
@@ -41,7 +42,7 @@ exports.up = async (knex) => {
   await knex.schema.createTable('groomer_services', (table) => {
     table.bigint('groomer_id').references('id').inTable('groomer');
     table.bigint('services_id').references('id').inTable('services');
-    table.bigint('services_price');
+    table.varchar('services_price');
   });
   await knex.schema.createTable('customer_pets_type', (table) => {
     table.bigint('customer_id').references('id').inTable('customer');

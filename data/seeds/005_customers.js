@@ -1,0 +1,48 @@
+exports.seed = async function (knex) {
+  await knex('customer').insert([
+    {
+      user_id: '00ultwz1n9ORpNFc04x6',
+      given_name: 'Iphigeneia',
+      family_name: 'Peder',
+      phone_number: '314-576-5181',
+      address: '1960 Woodbridge Lane',
+      city: 'St. Louis',
+      state: 'IL',
+      zip_code: '62040',
+      country: 'United States of America',
+    },
+    {
+      user_id: '00u13omswyZM1xVya4x7',
+      given_name: 'Giovanni',
+      family_name: 'Sinclair',
+      phone_number: '702-230-5899',
+      address: '659 Hiney Road',
+      city: ' Las Vegas',
+      state: 'NV',
+      zip_code: '89102',
+      country: 'United States of America',
+    },
+    {
+      user_id: '00u13ol5x1kmKxVJU4x7',
+      given_name: 'Jackie ',
+      family_name: 'Stratton',
+      phone_number: '505-853-6150',
+      address: ' 560 Chapmans Lane',
+      city: 'Albuquerque',
+      state: 'NM',
+      zip_code: '87109',
+      country: 'United States of America',
+    },
+    {
+      user_id: '00u13oned0U8XP8Mb4x7',
+      given_name: 'Grant ',
+      family_name: 'Kilpatrick',
+      phone_number: '662-761-7321',
+      address: '3115 Rafe Lane',
+      city: 'New Albany',
+      state: 'MI',
+      zip_code: '38652',
+      country: 'United States of America',
+    },
+  ]);
+};
