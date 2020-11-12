@@ -51,7 +51,7 @@
     "knex": "^0.21.6",
     "morgan": "~1.9.1",
     "pg": "^8.4.1",
-    "react-scripts": "^3.4.0",
+    "react-scripts": "^4.0.0",
     "swagger-jsdoc": "^4.3.0",
     "swagger-ui-express": "^4.1.4"
   },
