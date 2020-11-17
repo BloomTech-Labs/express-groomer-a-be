@@ -24,7 +24,7 @@ const profileRouter = require('./profile/profileRouter');
 const customersRouter = require('./customers/customersRouter');
 const groomerRouter = require('./groomers/groomerRouter');
 const servicesRouter = require('./services/servicesRouter');
-const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
+const groomerServicesRouter = require('./groomerservices/GroomerServicesRouter');
 
 const app = express();
 

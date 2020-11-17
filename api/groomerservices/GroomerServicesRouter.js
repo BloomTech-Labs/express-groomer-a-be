@@ -1,7 +1,13 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
-const groomer_services = require('./groomerServicesModel');
+const groomer_services = require('./GroomerServicesModel');
 const router = express.Router();
+
+router.all('/', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'https://b.expressgroomer.dev');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
 
 router.get('/', async (req, res) => {
   try {
