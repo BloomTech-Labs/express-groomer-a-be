@@ -6,7 +6,18 @@ const getAll = async () => {
 
 const getById = async (id) => {
   return await db('groomer_services')
-    .where('groomer_id', id)
+    .join('services', 'services.id', '=', 'groomer_services.services_id')
+    .where('groomer_services.groomer_id', id)
+    .select(
+      'services.service_name',
+      'services.id',
+      'groomer_services.services_price'
+    );
+};
+
+const checkIfExists = async (service_id, groomer_id) => {
+  return await db('groomer_services')
+    .where({ groomer_id: groomer_id, services_id: service_id })
     .first()
     .select('*');
 };
@@ -21,16 +32,18 @@ const create = async (data) => {
   return await db('groomer_services').insert(data).returning('*');
 };
 
-const update = async (id, data) => {
+const update = async (groomer_id, services_id, data) => {
   return await db('groomer_services')
-    .where('groomer_id', id)
+    .where({ services_id: services_id, groomer_id: groomer_id })
     .first()
     .update(data)
     .returning('*');
 };
 
-const remove = async (id) => {
-  return await db('groomer_services').where('groomer_id', id).del();
+const remove = async (groomer_id, services_id) => {
+  return await db('groomer_services')
+    .where({ services_id: services_id, groomer_id: groomer_id })
+    .del();
 };
 
 module.exports = {
@@ -40,4 +53,5 @@ module.exports = {
   create,
   update,
   remove,
+  checkIfExists,
 };
