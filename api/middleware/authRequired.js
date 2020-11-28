@@ -12,6 +12,7 @@ const makeProfileObj = (claims) => {
     id: claims.sub,
     email: claims.email,
     name: claims.name,
+    role: claims.role,
   };
 };
 /**
