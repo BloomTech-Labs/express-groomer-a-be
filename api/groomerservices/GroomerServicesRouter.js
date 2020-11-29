@@ -1,6 +1,6 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
-const groomer_services = require('./GroomerServicesModel');
+const groomer_services = require('./groomerServicesModel');
 const router = express.Router();
 
 router.all('/', function (req, res, next) {
@@ -27,6 +27,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//post Groomer Services
 router.post('/', authRequired, async (req, res) => {
   try {
     const isInTable = await groomer_services.checkIfExists(
@@ -46,6 +47,7 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
+//update groomer service?
 router.put('/:id', authRequired, async (req, res) => {
   try {
     const edits = await groomer_services.update(
