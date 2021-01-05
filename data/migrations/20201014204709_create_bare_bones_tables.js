@@ -27,21 +27,18 @@ exports.up = async (knex) => {
     table.varchar('zip_code');
     table.varchar('country');
   });
-  await knex.schema.createTable('pet_types', (table) => {
-    table.increments('id');
-    table.varchar('breed');
-  });
+
   await knex.schema.createTable('pets', (table) => {
     table.increments('id');
-    table.bigint('pet_types_id').references('id').inTable('pet_types');
     table.string('customer_id').references('user_id').inTable('customer');
     table.varchar('pet_name').notNull();
     table.varchar('pet_picture');
+    table.varchar('pet_breed').notNull();
     table.varchar('pet_color');
     table.varchar('pet_gender').notNull();
     table.boolean('spay_neuter').notNull();
     table.varchar('special_requests', 5000);
-    table.varchar('pet_temperment', 500);
+    table.varchar('pet_temperament', 500);
     table.boolean('shots_current').notNull();
   });
   await knex.schema.createTable('services', (table) => {
@@ -68,7 +65,6 @@ exports.down = async function (knex) {
   await knex.schema.dropTableIfExists('groomer_schedule');
   await knex.schema.dropTableIfExists('services');
   await knex.schema.dropTableIfExists('pets');
-  await knex.schema.dropTableIfExists('pet_types');
   await knex.schema.dropTableIfExists('customer');
   await knex.schema.dropTableIfExists('groomer');
 };
