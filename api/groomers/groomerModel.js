@@ -3,7 +3,8 @@ const db = require('../../data/db-config');
 const getAll = async () => {
   const groomers = await db('groomer');
   groomers.map((groomer) => {
-    groomer.fullAddress = `${groomer.address} ${groomer.city} ${groomer.state} ${groomer.zip_code}`;
+    console.log(groomer.address);
+    groomer.fullAddress = `${groomer.address.replace(/ /g, '+')}+${groomer.city.replace(/ /g, '+')}+${groomer.state.replace(/ /g, '+')}+${groomer.zip_code}`;
   });
   return groomers;
 };
