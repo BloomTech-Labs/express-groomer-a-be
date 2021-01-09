@@ -1,11 +1,7 @@
 const db = require('../../data/db-config');
 
 const getAll = async () => {
-  const groomers = await db('groomer');
-  groomers.map((groomer) => {
-    groomer.fullAddress = `${groomer.address.replace(/ /g, '+')}+${groomer.city.replace(/ /g, '+')}+${groomer.state.replace(/ /g, '+')}+${groomer.zip_code}`;
-  });
-  return groomers;
+  return db('groomer');
 };
 
 const getById = async (id) => {
