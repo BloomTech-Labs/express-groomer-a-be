@@ -14,6 +14,8 @@ exports.up = async (knex) => {
     table.varchar('email').notNull();
     table.varchar('about', 5000);
     table.varchar('hours', 5000);
+    table.float('lat').notNull();
+    table.float('lng').notNull();
   });
   await knex.schema.createTable('customer', (table) => {
     table.increments('id');
