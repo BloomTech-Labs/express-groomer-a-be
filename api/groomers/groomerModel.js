@@ -3,7 +3,6 @@ const db = require('../../data/db-config');
 const getAll = async () => {
   const groomers = await db('groomer');
   groomers.map((groomer) => {
-    console.log(groomer);
     groomer.fullAddress = `${groomer.address} ${groomer.city} ${groomer.state} ${groomer.zip_code}`;
   });
   return groomers;
