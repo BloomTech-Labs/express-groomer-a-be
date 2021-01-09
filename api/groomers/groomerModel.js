@@ -1,27 +1,28 @@
 const db = require('../../data/db-config');
 
 const getAll = async () => {
-  return await db('groomer');
+  const groomers = await db('groomer');
+  groomers.map((groomer) => {
+    console.log(groomer);
+    groomer.fullAddress = `${groomer.address} ${groomer.city} ${groomer.state} ${groomer.zip_code}`;
+  });
+  return groomers;
 };
 
 const getById = async (id) => {
-  return await db('groomer').where('user_id', id).first().select('*');
+  return db('groomer').where('user_id', id).first().select('*');
 };
 
 const create = async (data) => {
-  return await db('groomer').insert(data).returning('*');
+  return db('groomer').insert(data).returning('*');
 };
 
 const update = async (id, data) => {
-  return await db('groomer')
-    .where('user_id', id)
-    .first()
-    .update(data)
-    .returning('*');
+  return db('groomer').where('user_id', id).first().update(data).returning('*');
 };
 
 const remove = async (id) => {
-  return await db('groomer').where('user_id', id).del();
+  return db('groomer').where('user_id', id).del();
 };
 
 module.exports = {
