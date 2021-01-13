@@ -1,4 +1,4 @@
-exports.up = (knex) => {
+exports.up = async (knex) => {
   return knex.schema
     .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
     .createTable('profiles', function (table) {
@@ -10,6 +10,7 @@ exports.up = (knex) => {
       table.string('role').notNullable();
     });
 };
-exports.down = (knex) => {
-  return knex.schema.dropTableIfExists('profiles');
+
+exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('profiles');
 };
