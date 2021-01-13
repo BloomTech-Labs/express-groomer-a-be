@@ -1,5 +1,5 @@
 exports.up = async (knex) => {
-  await knex.schema.createTable('groomers_services', (table) => {
+  await knex.schema.createTable('groomer_services', (table) => {
     table
       .string('groomer_id')
       .references('user_id')
@@ -17,5 +17,5 @@ exports.up = async (knex) => {
 };
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('groomers_services');
+  await knex.schema.dropTableIfExists('groomer_services');
 };
