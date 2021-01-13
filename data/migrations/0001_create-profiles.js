@@ -12,6 +12,5 @@ exports.up = async (knex) => {
 };
 
 exports.down = async (knex) => {
-  await knex.raw('DROP TABLE profiles CASCADE');
-  // knex.schema.dropTableIfExists('profiles');
+  await knex.schema.dropTableIfExists('profiles');
 };
