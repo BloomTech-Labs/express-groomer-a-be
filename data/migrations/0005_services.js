@@ -3,8 +3,8 @@ exports.up = async (knex) => {
     table.increments('id');
     table.string('service_name').notNull();
   });
-}
+};
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('services')
+  await knex.schema.dropTableIfExists('services');
 };
