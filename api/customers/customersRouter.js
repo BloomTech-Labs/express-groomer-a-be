@@ -3,12 +3,15 @@ const authRequired = require('../middleware/authRequired');
 const customer = require('./customersModel.js');
 const router = express.Router();
 
-router.all('/', function (req, res, next) {
+router.all('/', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   next();
 });
 
+/******************************************************************************
+ *                      GET all customers
+ ******************************************************************************/
 router.get('/', authRequired, async (req, res) => {
   try {
     const data = await customer.getAll();
@@ -18,6 +21,9 @@ router.get('/', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      GET customer by id
+ ******************************************************************************/
 router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await customer.getById(req.params.id);
@@ -27,10 +33,16 @@ router.get('/:id', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      POST new customer
+ ******************************************************************************/
 router.post('/', authRequired, async (req, res) => {
   try {
     //checking to see if user already exists
-    const user = await customer.getById(req.body.user_id);
+    let user = undefined;
+    if (req.body.user_id) {
+      user = await customer.getById(req.body.user_id);
+    }
     if (user === undefined) {
       //if undefined add user
       const new_user = await customer.create(req.body);
@@ -45,6 +57,9 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      PUT customer by id
+ ******************************************************************************/
 router.put('/:id', authRequired, async (req, res) => {
   try {
     //checking to see if user already exists
@@ -63,6 +78,9 @@ router.put('/:id', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      DELETE customer by id
+ ******************************************************************************/
 router.delete('/:id', authRequired, async (req, res) => {
   try {
     if (!req.params.id) {
