@@ -29,6 +29,9 @@ router.all('/', function (req, res, next) {
  *                api:
  *                  type: boolean
  *                  example: true
+ *                timestamp:
+ *                  type: date
+ *                  example: 1293847921387
  */
 router.get('/', function (req, res) {
   res.status(200).json({ api: 'up', timestamp: Date.now() });
