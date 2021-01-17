@@ -22,7 +22,7 @@ router.get('/', authRequired, async (req, res) => {
 });
 
 /******************************************************************************
- *                      GET customer by id
+ *                      GET customer by user id
  ******************************************************************************/
 router.get('/:id', authRequired, async (req, res) => {
   try {
@@ -58,7 +58,7 @@ router.post('/', authRequired, async (req, res) => {
 });
 
 /******************************************************************************
- *                      PUT customer by id
+ *                      PUT customer by user id
  ******************************************************************************/
 router.put('/:id', authRequired, async (req, res) => {
   try {
@@ -79,7 +79,7 @@ router.put('/:id', authRequired, async (req, res) => {
 });
 
 /******************************************************************************
- *                      DELETE customer by id
+ *                      DELETE customer by user id
  ******************************************************************************/
 router.delete('/:id', authRequired, async (req, res) => {
   try {
