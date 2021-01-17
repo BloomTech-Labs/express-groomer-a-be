@@ -1,4 +1,4 @@
-exports.seed = async function(knex) {
+exports.seed = async function (knex) {
   await knex('groomer').insert([
     {
       user_id: '00ulthapbErVUwVJy4x6',
