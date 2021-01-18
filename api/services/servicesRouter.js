@@ -3,13 +3,16 @@ const authRequired = require('../middleware/authRequired');
 const services = require('./servicesModel');
 const router = express.Router();
 
-router.all('/', function (req, res, next) {
+router.all('/', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   next();
 });
 
-router.get('/', async (req, res) => {
+/******************************************************************************
+ *                      GET all services
+ ******************************************************************************/
+router.get('/', authRequired, async (req, res) => {
   try {
     const data = await services.getAll();
     res.status(200).json(data);
@@ -18,7 +21,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+/******************************************************************************
+ *                      GET service by id
+ ******************************************************************************/
+router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await services.getById(req.params.id);
     res.status(200).json(data);
@@ -27,49 +33,56 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      POST a service
+ ******************************************************************************/
 router.post('/', authRequired, async (req, res) => {
   try {
-    //checking to see if user already exists
-    const user = await services.getById(req.body.user_id);
-    if (user === undefined) {
-      //if undefined add user
-      const new_user = await services.create(req.body);
+    //checking to see if service already exists
+    const service = await services.getByName(req.body.service_name);
+    if (service === undefined) {
+      //if undefined add service
+      const new_service = await services.create(req.body);
       res
         .status(200)
-        .json({ message: 'Services profile created', Profile: new_user });
+        .json({ message: 'Services created', Profile: new_service });
     } else {
-      res.status(400).json({ message: 'Profile already exists' });
+      res.status(400).json({ message: 'Service already exists' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+/******************************************************************************
+ *                      PUT a service
+ ******************************************************************************/
 router.put('/:id', authRequired, async (req, res) => {
   try {
-    //checking to see if user already exists
-    const user = await services.getById(req.params.id);
-    if (user !== undefined) {
+    //checking to see if service already exists
+    const service = await services.getByName(req.body.service_name);
+    if (service === undefined) {
       //if not undefined update user
       const edits = await services.update(req.params.id, req.body);
-      res
-        .status(200)
-        .json({ message: 'Services profile updated', Profile: edits });
+      res.status(200).json({ message: 'Services updated', Profile: edits });
     } else {
-      res.status(400).json({ message: 'Profile does not exists' });
+      res.status(400).json({ message: 'Service does not exist' });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+/******************************************************************************
+ *                      DELETE a service
+ ******************************************************************************/
 router.delete('/:id', authRequired, async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(404).json({ message: 'Missing required id.' });
     }
     await services.remove(req.params.id);
-    res.status(200).json({ message: 'User was deleted' });
+    res.status(200).json({ message: 'Service was deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

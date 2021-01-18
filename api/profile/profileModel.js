@@ -26,7 +26,7 @@ const update = (id, profile) => {
 };
 
 const remove = async (id) => {
-  return await db('profiles').where({ id }).del();
+  return db('profiles').where({ id }).del();
 };
 
 const findOrCreateProfile = async (profileObj) => {

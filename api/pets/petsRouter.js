@@ -67,9 +67,9 @@ router.put('/:id', authRequired, async (req, res) => {
 });
 
 /******************************************************************************
- *                      Delete an existing customers pet
+ *                      DELETE an existing customers pet
  ******************************************************************************/
-router.delete('/:id',  async (req, res) => {
+router.delete('/:id', authRequired, async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(400).json({ message: 'ID Required' });
