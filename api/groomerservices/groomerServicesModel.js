@@ -1,9 +1,7 @@
 const db = require('../../data/db-config');
 
 const getAll = async () => {
-  const services = await db('groomer_services');
-  console.log(services);
-  return services;
+  return db('groomer_services');
 };
 
 const getById = async (id) => {

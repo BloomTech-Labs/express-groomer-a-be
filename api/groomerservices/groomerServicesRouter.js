@@ -12,7 +12,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all groomers services
  ******************************************************************************/
-router.get('/', async (req, res) => {
+router.get('/', authRequired, async (req, res) => {
   console.log('test');
   try {
     const data = await groomer_services.getAll();

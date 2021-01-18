@@ -2,6 +2,7 @@
 exports.seed = async function (knex) {
   await knex('pets').insert([
     {
+      customer_id: '00ultwz1n9ORpNFc04x6',
       pet_name: 'Fido',
       pet_picture: '',
       pet_breed: 'Chihuahua',

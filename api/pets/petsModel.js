@@ -2,7 +2,9 @@
 const db = require('../../data/db-config');
 
 const getAll = async (customer_id) => {
-  return await db('pets').where('customer_id', customer_id).select('*');
+  const pets = db('pets').where('customer_id', customer_id).select('*');
+  console.log(pets);
+  return pets;
 };
 
 // This one chooses the pet by id, where the customer ID matches and the ID matches the required id
