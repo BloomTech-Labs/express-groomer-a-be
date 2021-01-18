@@ -3,7 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const groomer = require('./groomerModel');
 const router = express.Router();
 
-router.all('/', function(req, res, next) {
+router.all('/', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   next();
