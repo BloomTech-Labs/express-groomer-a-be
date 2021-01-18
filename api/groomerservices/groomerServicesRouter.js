@@ -9,7 +9,11 @@ router.all('/', function (req, res, next) {
   next();
 });
 
+/******************************************************************************
+ *                      GET all groomer service
+ ******************************************************************************/
 router.get('/', async (req, res) => {
+  console.log('test');
   try {
     const data = await groomer_services.getAll();
     res.status(200).json(data);
@@ -27,7 +31,9 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-//post Groomer Services
+/******************************************************************************
+ *                      POST  groomer service
+ ******************************************************************************/
 router.post('/', authRequired, async (req, res) => {
   try {
     const isInTable = await groomer_services.checkIfExists(
@@ -47,7 +53,9 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
-//update groomer service?
+/******************************************************************************
+ *                      PUT groomer service
+ ******************************************************************************/
 router.put('/:id', authRequired, async (req, res) => {
   try {
     const edits = await groomer_services.update(
@@ -63,6 +71,9 @@ router.put('/:id', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      DELETE groomer service
+ ******************************************************************************/
 router.delete('/:id', authRequired, async (req, res) => {
   try {
     await groomer_services.remove(req.params.id, req.query.service);
