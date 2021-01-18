@@ -10,7 +10,7 @@ router.all('/', function (req, res, next) {
 });
 
 /******************************************************************************
- *                      GET all groomer service
+ *                      GET all groomers services
  ******************************************************************************/
 router.get('/', async (req, res) => {
   console.log('test');
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await groomer_services.getById(req.params.id);
     res.status(200).json(data);
