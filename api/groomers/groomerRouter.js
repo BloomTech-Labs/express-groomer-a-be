@@ -9,7 +9,10 @@ router.all('/', function (req, res, next) {
   next();
 });
 
-router.get('/', async (req, res) => {
+/******************************************************************************
+ *                      GET all groomers
+ ******************************************************************************/
+router.get('/', authRequired, async (req, res) => {
   try {
     const data = await groomer.getAll();
     res.status(200).json(data);
@@ -18,19 +21,29 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+/******************************************************************************
+ *                      GET groomer by user id
+ ******************************************************************************/
+router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await groomer.getById(req.params.id);
+    console.log(data);
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+/******************************************************************************
+ *                      POST new groomer
+ ******************************************************************************/
 router.post('/', authRequired, async (req, res) => {
   try {
     //checking to see if user already exists
-    const user = await groomer.getById(req.body.user_id);
+    let user = undefined;
+    if (req.body.user_id) {
+      user = await groomer.getById(req.body.user_id);
+    }
     if (user === undefined) {
       //if undefined add user
       const new_user = await groomer.create(req.body);
@@ -45,6 +58,9 @@ router.post('/', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      PUT groomer by user id
+ ******************************************************************************/
 router.put('/:id', authRequired, async (req, res) => {
   try {
     //checking to see if user already exists
@@ -63,6 +79,9 @@ router.put('/:id', authRequired, async (req, res) => {
   }
 });
 
+/******************************************************************************
+ *                      DELETE groomer by id
+ ******************************************************************************/
 router.delete('/:id', authRequired, async (req, res) => {
   try {
     if (!req.params.id) {

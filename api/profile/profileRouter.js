@@ -68,6 +68,10 @@ router.all('/', function (req, res, next) {
  *      403:
  *        $ref: '#/components/responses/UnauthorizedError'
  */
+
+/******************************************************************************
+ *                      GET all profiles
+ ******************************************************************************/
 router.get('/', authRequired, function (req, res) {
   Profiles.findAll()
     .then((profiles) => {
@@ -114,6 +118,10 @@ router.get('/', authRequired, function (req, res) {
  *      404:
  *        description: 'Profile not found'
  */
+
+/******************************************************************************
+ *                      GET an existing profile by id
+ ******************************************************************************/
 router.get('/:id', authRequired, function (req, res) {
   const id = String(req.params.id);
   Profiles.findById(id)
@@ -165,6 +173,9 @@ router.get('/:id', authRequired, function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
+/******************************************************************************
+ *                      POST a profile
+ ******************************************************************************/
 router.post('/', authRequired, async (req, res) => {
   const profile = req.body;
   if (profile) {
@@ -224,6 +235,9 @@ router.post('/', authRequired, async (req, res) => {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
+/******************************************************************************
+ *                      PUT a profile
+ ******************************************************************************/
 router.put('/', authRequired, function (req, res) {
   const profile = req.body;
   if (profile) {
@@ -281,6 +295,9 @@ router.put('/', authRequired, function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
+/******************************************************************************
+ *                      DELETE a profile
+ ******************************************************************************/
 router.delete('/:id', authRequired, function (req, res) {
   const id = req.params.id;
   try {

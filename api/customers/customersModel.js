@@ -5,15 +5,15 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-  return await db('customer').where('user_id', id).first().select('*');
+  return db('customer').where('user_id', id).first().select('*');
 };
 
 const create = async (data) => {
-  return await db('customer').insert(data).returning('*');
+  return db('customer').insert(data).returning('*');
 };
 
 const update = async (id, data) => {
-  return await db('customer')
+  return db('customer')
     .where('user_id', id)
     .first()
     .update(data)
@@ -21,7 +21,7 @@ const update = async (id, data) => {
 };
 
 const remove = async (id) => {
-  return await db('customer').where('user_id', id).del();
+  return db('customer').where('user_id', id).del();
 };
 
 module.exports = {

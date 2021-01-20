@@ -5,14 +5,16 @@ exports.up = async (knex) => {
       .references('user_id')
       .inTable('groomer')
       .onDelete('cascade')
-      .onUpdate('cascade');
+      .onUpdate('cascade')
+      .notNull();
     table
       .bigint('services_id')
       .references('id')
       .inTable('services')
       .onDelete('cascade')
-      .onUpdate('cascade');
-    table.decimal('services_price', 14, 2);
+      .onUpdate('cascade')
+      .notNull();
+    table.decimal('services_price', 14, 2).notNull();
   });
 };
 
