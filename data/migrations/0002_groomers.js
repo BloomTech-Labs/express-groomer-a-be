@@ -23,6 +23,7 @@ exports.up = async (knex) => {
     table.float('lat').notNull();
     table.float('lng').notNull();
     table.string('license_number');
+    table.string('personal_calendly_link').notNullable();
   });
 };
 
