@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 /******************************************************************************
  *                      GET groomer by user id
  ******************************************************************************/
-router.get('/:id', authRequired, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const data = await groomer.getById(req.params.id);
     console.log(data);
