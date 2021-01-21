@@ -22,7 +22,7 @@ router.get('/', authRequired, async (req, res) => {
   }
 });
 
-router.get('/:id', authRequired, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const data = await groomer_services.getById(req.params.id);
     res.status(200).json(data);
@@ -56,7 +56,7 @@ router.post('/', authRequired, async (req, res) => {
 /******************************************************************************
  *                      PUT groomer service
  ******************************************************************************/
-router.put('/:id', async (req, res) => {
+router.put('/:id', authRequired, async (req, res) => {
   try {
     const edits = await groomer_services.update(
       req.params.id,
