@@ -56,7 +56,7 @@ router.post('/', authRequired, async (req, res) => {
 /******************************************************************************
  *                      PUT groomer service
  ******************************************************************************/
-router.put('/:id', authRequired async (req, res) => {
+router.put('/:id', authRequired, async (req, res) => {
   try {
     const edits = await groomer_services.update(
       req.params.id,
