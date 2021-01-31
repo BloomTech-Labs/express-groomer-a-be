@@ -12,7 +12,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all services
  ******************************************************************************/
-router.get('/', authRequired, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const data = await services.getAll();
     res.status(200).json(data);

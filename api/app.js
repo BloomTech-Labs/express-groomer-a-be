@@ -26,7 +26,6 @@ const groomerRouter = require('./groomers/groomerRouter');
 const servicesRouter = require('./services/servicesRouter');
 const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
 const petRouter = require('./pets/petsRouter');
-const imageRouter = require('./images/image-uploadRouter');
 
 const app = express();
 
@@ -60,7 +59,6 @@ app.use('/groomers', groomerRouter);
 app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
-app.use('/image-upload', imageRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
