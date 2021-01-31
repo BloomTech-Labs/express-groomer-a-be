@@ -3,6 +3,9 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const petsModel = require('./petsModel');
 const router = express.Router();
+const upload = require('../../services/image-upload');
+const singleUpload = upload.single('image');
+
 
 /******************************************************************************
  *                      GET all of an existing customers pets
@@ -79,6 +82,39 @@ router.delete('/:id', authRequired, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Error: 500' });
   }
+});
+
+/******************************************************************************
+ *                       POST pet photo by id
+ ******************************************************************************/
+router.post('/image-upload/:id', authRequired, async (req, res) => {
+  let img;
+  singleUpload(req, res, async (err) => {
+    img = req.file.location;
+    const pet = await petsModel.getById(req.query.customer_id, req.params.id);
+    if (pet !== undefined) {
+      const new_data = await petsModel.update(req.query.customer_id, req.params.id, {pet_image_url: img});
+      res.status(200).json({ message: 'Pet updated', Profile: new_data });
+    } else {
+      res.status(400).json({ message: 'Pet does not exist' });
+    }
+  });
+});
+/******************************************************************************
+ *                       POST pet photo by id
+ ******************************************************************************/
+router.post('/vaccination-upload/:id', authRequired, async (req, res) => {
+  let img;
+  singleUpload(req, res, async (err) => {
+    img = req.file.location;
+    const pet = await petsModel.getById(req.query.customer_id, req.params.id);
+    if (pet !== undefined) {
+      const new_data = await petsModel.update(req.query.customer_id, req.params.id, {vaccination_image_url: img});
+      res.status(200).json({ message: 'Pet updated', Profile: new_data });
+    } else {
+      res.status(400).json({ message: 'Pet does not exist' });
+    }
+  });
 });
 
 module.exports = router;

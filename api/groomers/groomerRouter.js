@@ -100,7 +100,7 @@ router.delete('/:id', authRequired, async (req, res) => {
 /******************************************************************************
  *                       POST groomer licence by id
  ******************************************************************************/
-router.post('/image-upload/:id', async (req, res) => {
+router.post('/license-upload/:id', authRequired, async (req, res) => {
   let img;
   singleUpload(req, res, async (err) => {
     img = req.file.location;
