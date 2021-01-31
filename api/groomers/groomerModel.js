@@ -13,7 +13,6 @@ const create = async (data) => {
 };
 
 const update = async (id, data) => {
-  console.log({data});
   return db('groomer').where('user_id', id).first().update(data).returning('*');
 };
 

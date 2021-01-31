@@ -89,7 +89,7 @@ router.delete('/:id', authRequired, async (req, res) => {
  ******************************************************************************/
 router.post('/image-upload/:id', authRequired, async (req, res) => {
   let img;
-  singleUpload(req, res, async (err) => {
+  singleUpload(req, res, async () => {
     img = req.file.location;
     const pet = await petsModel.getById(req.query.customer_id, req.params.id);
     if (pet !== undefined) {
@@ -105,7 +105,7 @@ router.post('/image-upload/:id', authRequired, async (req, res) => {
  ******************************************************************************/
 router.post('/vaccination-upload/:id', authRequired, async (req, res) => {
   let img;
-  singleUpload(req, res, async (err) => {
+  singleUpload(req, res, async () => {
     img = req.file.location;
     const pet = await petsModel.getById(req.query.customer_id, req.params.id);
     if (pet !== undefined) {

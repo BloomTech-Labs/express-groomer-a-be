@@ -5,8 +5,7 @@ const router = express.Router();
 const upload = require('../../services/image-upload');
 const singleUpload = upload.single('image');
 
-
-router.all('/', function(req, res, next) {
+router.all('/', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   next();
@@ -102,7 +101,7 @@ router.delete('/:id', authRequired, async (req, res) => {
  ******************************************************************************/
 router.post('/license-upload/:id', authRequired, async (req, res) => {
   let img;
-  singleUpload(req, res, async (err) => {
+  singleUpload(req, res, async () => {
     img = req.file.location;
     const user = await groomer.getById(req.params.id);
     if (user !== undefined) {
