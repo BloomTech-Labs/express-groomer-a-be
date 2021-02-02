@@ -16,7 +16,8 @@ exports.up = async (knex) => {
     table.varchar('special_requests', 5000);
     table.varchar('pet_temperament', 500);
     table.boolean('shots_current').notNull();
-    table.string('avatarUrl');
+    table.string('pet_image_url');
+    table.string('vaccination_image_url');
   });
 };
 

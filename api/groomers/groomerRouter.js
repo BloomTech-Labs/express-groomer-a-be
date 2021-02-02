@@ -2,6 +2,8 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const groomer = require('./groomerModel');
 const router = express.Router();
+const upload = require('../../services/image-upload');
+const singleUpload = upload.single('image');
 
 router.all('/', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
@@ -92,6 +94,28 @@ router.delete('/:id', authRequired, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+/******************************************************************************
+ *                       POST groomer licence by id
+ ******************************************************************************/
+router.post('/license-upload/:id', authRequired, async (req, res) => {
+  let img;
+  singleUpload(req, res, async () => {
+    img = req.file.location;
+    const user = await groomer.getById(req.params.id);
+    if (user !== undefined) {
+      //if not undefined update user
+      const edits = await groomer.update(req.params.id, {
+        license_image_url: img,
+      });
+      res
+        .status(200)
+        .json({ message: 'Groomer profile updated', Profile: edits });
+    } else {
+      res.status(400).json({ message: 'Profile does not exists' });
+    }
+  });
 });
 
 module.exports = router;
