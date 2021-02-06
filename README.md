@@ -1,6 +1,6 @@
 # **Express Groomer Back End API**
 
-#### Backend [`Github Repo`](https://github.com/Lambda-School-Labs/Express_Groomer-TeamB-BE) located [here](https://github.com/Lambda-School-Labs/Express_Groomer-TeamB-BE).
+#### Front End [`Github Repo`](https://github.com/Lambda-School-Labs/Express_Groomer-TeamB-FE) located [here](https://github.com/Lambda-School-Labs/Express_Groomer-TeamB-FE).
 
 
 #### Back End [`Deployed Site`](https://express-groomer-b-api.herokuapp.com/) located [here](https://express-groomer-b-api.herokuapp.com/).
@@ -15,12 +15,15 @@ For more extensive information on the state of the application as a whole and it
 ## Tech Stack 
 
 - Node.js
+- Okta
 - Express
 - Knex
 - PostgreSQL
 - Docker
 - AWS S3
 - Multer
+
+**Authentication: Okta API** 
 
 <br>
 
