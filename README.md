@@ -38,8 +38,6 @@ You can import the entire Postman Collection via this button:
 
 **`NOTE:`**  neither this documentation nor the Postman collection include the authentication headers with the Bearer Token needed to access protected routes.  
 
-Within the repo you will find almost all API calls being made via functions within the APIContext.js file (src/state/contexts/APIContext.js). Within that file you will see the function which generates the authheaders which hold the Bearer Token recieved from Okta.
-
 For this reason, currently routes have been tested in Postman in a local environment by first removing the authrequired middleware.  If you choose to do so, do NOT forget to restore the middleware to any routes you are testing.
 
 <br>
