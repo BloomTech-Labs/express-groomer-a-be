@@ -38,7 +38,7 @@ You can import the entire Postman Collection via this button:
 
 **`NOTE:`**  neither this documentation nor the Postman collection include the authentication headers with the Bearer Token needed to access protected routes.  
 
-For this reason, currently routes have been tested in Postman in a local environment by first removing the authrequired middleware.  If you choose to do so, do NOT forget to restore the middleware to any routes you are testing.
+For this reason, currently routes have been tested in Postman in a local environment by first removing the authrequired middleware.  If you choose to do so, do NOT forget to restore the middleware to any routes you are testing. And do NOT commit any such changes to the backend.  This is not best practice. If there is a way to get OKTA auth recognized in Postman, feel free to attempt it.  Alternatively you might research using Insomnia with Okta auth.
 
 <br>
 
