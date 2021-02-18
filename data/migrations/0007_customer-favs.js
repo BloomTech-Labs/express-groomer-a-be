@@ -14,7 +14,8 @@ exports.up = async (knex) => {
         .references('user_id')
         .inTable('groomer')
         .onDelete('cascade')
-        .onUpdate('cascade');
+        .onUpdate('cascade')
+        .notNull();
     });
   };
   
