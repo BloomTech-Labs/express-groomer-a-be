@@ -1,6 +1,7 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const customer = require('./customersModel.js');
+const favoritesRouter = require("../customer_favs/customerFavRouter");
 const router = express.Router();
 
 router.all('/', function (req, res, next) {
@@ -12,7 +13,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all customers
  ******************************************************************************/
-router.get('/', authRequired, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const data = await customer.getAll();
     res.status(200).json(data);
@@ -24,7 +25,7 @@ router.get('/', authRequired, async (req, res) => {
 /******************************************************************************
  *                      GET customer by user id
  ******************************************************************************/
-router.get('/:id', authRequired, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const data = await customer.getById(req.params.id);
     res.status(200).json(data);
@@ -93,4 +94,5 @@ router.delete('/:id', authRequired, async (req, res) => {
   }
 });
 
+router.use("/:user_id/favorites/", favoritesRouter);
 module.exports = router;

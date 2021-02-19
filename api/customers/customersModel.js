@@ -24,10 +24,13 @@ const remove = async (id) => {
   return db('customer').where('user_id', id).del();
 };
 
+
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
+
 };
