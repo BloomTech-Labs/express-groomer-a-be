@@ -12,6 +12,7 @@ const getFavsById = async (id) => {
       'groomer.address',
       'groomer.city',
       'groomer.state',
+      'groomer.zip_code',
       'groomer.country',
       'groomer.email',
       'groomer.about'

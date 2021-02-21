@@ -11,7 +11,7 @@ async function findRatingByUsers(customer_id, groom_id) {
     .andWhere('groom_id', groom_id);
   }
 
-async function findRatingByUser(groom_id) {
+async function findRatingByGroomer(groom_id) {
   return db('rating')
     .where('groom_id', groom_id)
 }
@@ -36,7 +36,7 @@ async function updateRating(customer_id, groom_id, rate){
 }
 module.exports = {
   addRating,
-  findRatingByUser,
+  findRatingByGroomer,
   getRatingsAvg,
   getRatingCount,
   findRatingByUsers,
