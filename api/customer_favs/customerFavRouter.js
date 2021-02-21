@@ -32,6 +32,7 @@ router.post('/', async (req, res) => {
 
     const { customer_id } = req.params;
     const { groom_id } = req.body;
+
     if (!groom_id) {
         return res.status(404).json({ message: 'Missing required id(groomer).' });
     }
@@ -39,7 +40,6 @@ router.post('/', async (req, res) => {
     const fav = await favs.findFavByUsers(customer_id, groom_id);
 
     if (fav.length) {
-      console.log(fav);
       return res.status(409).json({
         message: 'This groomer is already a favorite!',
       });
