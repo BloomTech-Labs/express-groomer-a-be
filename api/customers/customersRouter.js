@@ -1,7 +1,7 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const customer = require('./customersModel.js');
-const favoritesRouter = require("../customer_favs/customerFavRouter");
+const favoritesRouter = require('../customer_favs/customerFavRouter');
 const router = express.Router();
 
 router.all('/', function (req, res, next) {
@@ -28,6 +28,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const data = await customer.getById(req.params.id);
+    if (!data){
+      return res.status(404).json({ message: 'User does not exist/ Valid ID required' });
+    }
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -94,5 +97,5 @@ router.delete('/:id', authRequired, async (req, res) => {
   }
 });
 
-router.use("/:user_id/favorites/", favoritesRouter);
+router.use('/:customer_id/favorites/', favoritesRouter);
 module.exports = router;

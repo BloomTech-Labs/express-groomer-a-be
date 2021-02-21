@@ -72,7 +72,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all profiles
  ******************************************************************************/
-router.get('/',  function (req, res) {
+router.get('/', function (req, res) {
   Profiles.findAll()
     .then((profiles) => {
       res.status(200).json(profiles);

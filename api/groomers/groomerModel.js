@@ -20,12 +20,10 @@ const remove = async (id) => {
   return db('groomer').where('user_id', id).del();
 };
 
-
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
-
 };
