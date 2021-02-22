@@ -24,6 +24,11 @@ async function addFav(newFav) {
   return db('customer_favs').insert(newFav).returning('*');
 }
 
+async function isCustomer(groom_id){
+    return db('customer')
+    .where('user_id',groom_id)
+}
+
 async function findFavByUsers(customer_id, groom_id) {
   return db('customer_favs')
     .where('customer_id', customer_id)
@@ -37,9 +42,16 @@ async function remove(customer_id, groom_id) {
     .del();
 }
 
+async function findGroom(groom_id){
+    return db('groomer')
+     .where('user_id', groom_id)
+}
+
 module.exports = {
   getFavsById,
   addFav,
   findFavByUsers,
   remove,
+  isCustomer,
+  findGroom,
 };

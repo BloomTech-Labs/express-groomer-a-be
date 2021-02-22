@@ -17,8 +17,16 @@ router.get('/', async (req, res) => {
 
         const { groom_id } = req.body;
 
-        if (!req.body) {
+        if (!groom_id) {
             return res.status(400).json({ message: "Groomer ID required!" });
+        }
+
+        const invalid = await ratings.findGroom(groom_id);
+
+        if (!invalid.length) {
+            return res.status(409).json({
+                message: 'No groomer found by said ID',
+              });
         }
 
         const data = await ratings.findRatingByGroomer(groom_id);
@@ -40,6 +48,15 @@ router.get('/count', async (req, res) => {
             return res.status(400).json({ message: "Groomer ID required!" });
         }
 
+        
+        const invalid = await ratings.findGroom(groom_id);
+
+        if (!invalid.length) {
+            return res.status(409).json({
+                message: 'No groomer found by said ID',
+              });
+        }
+
         const data = await ratings.getRatingCount(groom_id);
 
         res.status(200).json(data);
@@ -49,15 +66,24 @@ router.get('/count', async (req, res) => {
 });
 
 /******************************************************************************
-*                     GET total groomer rating count (not average)
+*                     GET groomer rating (final average)
 ******************************************************************************/
 router.get('/average', async (req, res) => {
     try {
 
         const { groom_id } = req.body;
 
-        if (!req.body) {
+        if (!groom_id) {
             return res.status(400).json({ message: "Groomer ID required!" });
+        }
+
+        
+        const invalid = await ratings.findGroom(groom_id);
+
+        if (!invalid.length) {
+            return res.status(409).json({
+                message: 'No groomer found by said ID',
+              });
         }
 
         const data = await ratings.getRatingsAvg(groom_id);
@@ -84,6 +110,14 @@ router.post('/', async (req, res) => {
         }
         if (!validNumz.includes(rate)) {
             return res.status(400).json({ message: 'Rating must be int(1-5)!' });
+        }
+        
+        const invalidGroom = await ratings.findGroom(groom_id);
+
+        if (!invalidGroom.length) {
+            return res.status(409).json({
+                message: 'No groomer found by said ID',
+              });
         }
 
         const rated = await ratings.findRatingByUsers(customer_id, groom_id);
