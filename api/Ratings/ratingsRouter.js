@@ -12,7 +12,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET ALL ratings by groomer id
  ******************************************************************************/
-router.get('/', async (req, res) => {
+router.get('/', authRequired, async (req, res) => {
     try {
 
         const { groom_id } = req.body;
@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 /******************************************************************************
  *                     GET total groomer rating vote count (not average)
  ******************************************************************************/
-router.get('/count', async (req, res) => {
+router.get('/count', authRequired, async (req, res) => {
     try {
         const { groom_id } = req.body;
 
@@ -68,7 +68,7 @@ router.get('/count', async (req, res) => {
 /******************************************************************************
 *                     GET groomer rating (final average)
 ******************************************************************************/
-router.get('/average', async (req, res) => {
+router.get('/average', authRequired, async (req, res) => {
     try {
 
         const { groom_id } = req.body;
@@ -98,7 +98,7 @@ router.get('/average', async (req, res) => {
  *           POST/PUT a rating ( if rating relation exists, PUT is triggered) 
  ******************************************************************************/
 
-router.post('/', async (req, res) => {
+router.post('/', authRequired, async (req, res) => {
     try {
         const validNumz = [1, 2, 3, 4, 5]
         const { customer_id, groom_id, rate } = req.body;
