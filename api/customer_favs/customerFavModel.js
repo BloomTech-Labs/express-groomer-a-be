@@ -5,6 +5,7 @@ const getFavsById = async (id) => {
     .innerJoin('customer_favs', 'customer_favs.groom_id', 'groomer.user_id')
     .innerJoin('customer', 'customer.user_id', 'customer_favs.customer_id')
     .select(
+      'groomer.user_id',
       'groomer.business_name',
       'groomer.given_name',
       'groomer.family_name',

@@ -13,7 +13,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all customers
  ******************************************************************************/
-router.get('/', async (req, res) => {
+router.get('/', authRequired, async (req, res) => {
   try {
     const data = await customer.getAll();
     res.status(200).json(data);
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 /******************************************************************************
  *                      GET customer by user id
  ******************************************************************************/
-router.get('/:id', async (req, res) => {
+router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await customer.getById(req.params.id);
     if (!data){
