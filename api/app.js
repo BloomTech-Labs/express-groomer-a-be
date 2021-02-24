@@ -26,7 +26,8 @@ const groomerRouter = require('./groomers/groomerRouter');
 const servicesRouter = require('./services/servicesRouter');
 const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
 const petRouter = require('./pets/petsRouter');
-const ratingsRouter = require('./Ratings/ratingsRouter')
+const ratingsRouter = require('./Ratings/ratingsRouter');
+const appointmentRouter = require('./appointments/appointmentRouter');
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
 
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
@@ -64,6 +65,7 @@ app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
 app.use('/ratings', ratingsRouter);
+app.use('/appointments', appointmentRouter);
 
 //app.use('/favorites', favoritesRouter)
 
