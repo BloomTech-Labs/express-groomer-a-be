@@ -27,6 +27,8 @@ const servicesRouter = require('./services/servicesRouter');
 const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
 const petRouter = require('./pets/petsRouter');
 
+//const favoritesRouter = require('./customer_favs/customerFavRouter')
+
 const app = express();
 
 process.on('unhandledRejection', (reason, p) => {
@@ -59,6 +61,9 @@ app.use('/groomers', groomerRouter);
 app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
+
+//app.use('/favorites', favoritesRouter)
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
