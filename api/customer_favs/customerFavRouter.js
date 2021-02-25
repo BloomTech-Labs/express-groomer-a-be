@@ -11,7 +11,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET ALL customer fav's by user id
  ******************************************************************************/
-router.get('/', authRequired, async (req, res) => {
+router.get('/',  async (req, res) => {
     try {
 
         const { customer_id: id } = req.params;
@@ -28,7 +28,7 @@ router.get('/', authRequired, async (req, res) => {
  *                      POST customer favorite by ID
  ******************************************************************************/
 
-router.post('/', authRequired, async (req, res) => {
+router.post('/',  async (req, res) => {
     try {
 
         const { customer_id } = req.params;
