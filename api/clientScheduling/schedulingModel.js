@@ -16,6 +16,12 @@ async function findAppointmentsByCustomer(customer_id) {
     .returning('*');
 }
 
+async function findAppointmentsByGroomerId(groom_id) {
+    return db('scheduling')
+      .where('groom_id', groom_id)
+      .returning('*');
+  }
+
 async function findAppointmentsByRelation(customer_id, groom_id) {
     return db('scheduling')
       .where('customer_id', customer_id)
@@ -48,6 +54,7 @@ module.exports = {
   validGroomer,
   findAppointmentsByCustomer,
   findAppointmentsByRelation,
+  findAppointmentsByGroomerId,
   remove,
   validCustomer,
   appointmentID

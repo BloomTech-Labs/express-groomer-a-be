@@ -1,6 +1,7 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const groomer = require('./groomerModel');
+const scheduleRouter = require('../clientScheduling/scheduleRouter');
 const router = express.Router();
 const upload = require('../../services/image-upload');
 const singleUpload = upload.single('image');
@@ -118,4 +119,5 @@ router.post('/license-upload/:id', authRequired, async (req, res) => {
   });
 });
 
+router.use('/:id/schedule/', scheduleRouter);
 module.exports = router;
