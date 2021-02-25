@@ -128,5 +128,33 @@ router.get('/:groomer_id', async (req, res) => {
     }
 });
 
+/******************************************************************************
+ *                     PUT appointments ( groomer appointment confirmation! )
+ ******************************************************************************/
+
+router.put('/groomer/:customer_id', async (req, res) => {
+    try {
+        const { id : groom_id, customer_id } = req.params;
+        const { confirmation , start} = req.body;
+
+        if (!groom_id || !customer_id || !start ) {
+            return res.status(400).json({ message: "Groomer id, customer id, appointment start time, and confirmation required!" });
+        }
+
+        if (typeof confirmation != "boolean"){
+            return res.status(400).json({ message: "Confirmation requires a boolean value" });
+        }
+
+        const data = await schedule.findAppointmentsByRelation(customer_id, groom_id);
+
+        if (data.length){
+            await schedule.updateConfirmation(customer_id, groom_id, start, confirmation)
+            return res.status(200).json({ message: `${(confirmation ? 'appoinment accepted!': 'appointment declined!')}`}); 
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;

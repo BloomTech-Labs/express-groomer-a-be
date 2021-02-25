@@ -28,7 +28,14 @@ async function findAppointmentsByRelation(customer_id, groom_id) {
       .andWhere('groom_id', groom_id)
       .returning('*');
   }
-  
+
+async function updateConfirmation(customer_id, groom_id, start, confirmation){
+    return db('scheduling')
+    .where('customer_id', customer_id)
+    .andWhere('groom_id', groom_id)
+    .andWhere('startTime', start)
+    .update({confirmation:confirmation})
+}
 
 async function remove(customer_id, groom_id) {
   return db('scheduling')
@@ -56,6 +63,7 @@ module.exports = {
   findAppointmentsByRelation,
   findAppointmentsByGroomerId,
   remove,
+  updateConfirmation,
   validCustomer,
-  appointmentID
+  appointmentID,
 };
