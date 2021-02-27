@@ -2,7 +2,8 @@ const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const customer = require('./customersModel.js');
 const favoritesRouter = require('../customer_favs/customerFavRouter');
-const scheduleRouter = require('../clientScheduling/scheduleRouter');
+const customerSearchbar = require('../clientScheduling/customer/customerSearchBar');
+const customerScheduleRouter = require('../clientScheduling/customer/customerScheduleRouter');
 const router = express.Router();
 
 router.all('/', function (req, res, next) {
@@ -99,5 +100,6 @@ router.delete('/:id', authRequired, async (req, res) => {
 });
 
 router.use('/:customer_id/favorites/', favoritesRouter);
-router.use('/:customer_id/schedule/', scheduleRouter);
+router.use('/:customer_id/customerSchedule/', customerScheduleRouter);
+router.use('/:customer_id/search/', customerSearchbar);
 module.exports = router;

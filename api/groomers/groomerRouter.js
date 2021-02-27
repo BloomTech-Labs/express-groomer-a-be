@@ -1,7 +1,8 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const groomer = require('./groomerModel');
-const scheduleRouter = require('../clientScheduling/scheduleRouter');
+const groomerScheduleRouter = require('../clientScheduling/groomer/groomerScheduleRouter');
+const groomerSearchBar = require('../clientScheduling/groomer/groomerSearchBar');
 const router = express.Router();
 const upload = require('../../services/image-upload');
 const singleUpload = upload.single('image');
@@ -15,7 +16,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all groomers
  ******************************************************************************/
-router.get('/', authRequired, async (req, res) => {
+router.get('/',  async (req, res) => {
   try {
     const data = await groomer.getAll();
     res.status(200).json(data);
@@ -27,7 +28,7 @@ router.get('/', authRequired, async (req, res) => {
 /******************************************************************************
  *                      GET groomer by user id
  ******************************************************************************/
-router.get('/:id', authRequired, async (req, res) => {
+router.get('/:id',  async (req, res) => {
   try {
     const data = await groomer.getById(req.params.id);
     console.log(data);
@@ -118,6 +119,6 @@ router.post('/license-upload/:id', authRequired, async (req, res) => {
     }
   });
 });
-
-router.use('/:id/schedule/', scheduleRouter);
+router.use('/:id/search/', groomerSearchBar);
+router.use('/:id/groomerSchedule/', groomerScheduleRouter);
 module.exports = router;

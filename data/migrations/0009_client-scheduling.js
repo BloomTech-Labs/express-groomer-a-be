@@ -2,12 +2,17 @@ exports.up = async (knex) => {
     await knex.schema.createTable('scheduling', (table) => {
       table.increments('id');
       table
+        .string('given_name')
+        .notNull();
+      table
         .string('customer_id')
         .references('user_id')
         .inTable('customer')
         .onDelete('cascade')
         .onUpdate('cascade')
         .notNull();
+      table
+        .string('business_name')
       table
         .string('groom_id')
         .references('user_id')
@@ -22,11 +27,14 @@ exports.up = async (knex) => {
         .date('date', {useTz: false})
         .notNull();
       table
-        .time('startTime')
+        .time('startTime' )
         .notNull();
       table
         .time('endTime')
         .notNull();
+      table
+        .json('services')
+        .notNull()
     });
   };
   

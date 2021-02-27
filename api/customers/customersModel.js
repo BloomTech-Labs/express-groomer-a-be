@@ -12,6 +12,13 @@ const create = async (data) => {
   return db('customer').insert(data).returning('*');
 };
 
+const findCustomerName = async (given_name, family_name) =>{
+  return db('customer')
+  .where('given_name', given_name)
+  .andWhere('family_name', family_name)
+  .select('user_id')
+}
+
 const update = async (id, data) => {
   return db('customer')
     .where('user_id', id)
@@ -30,4 +37,5 @@ module.exports = {
   create,
   update,
   remove,
+  findCustomerName
 };
