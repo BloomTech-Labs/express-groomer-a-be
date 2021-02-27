@@ -102,4 +102,5 @@ router.delete('/:id', authRequired, async (req, res) => {
 router.use('/:customer_id/favorites/', favoritesRouter);
 router.use('/:customer_id/customerSchedule/', customerScheduleRouter);
 router.use('/:customer_id/search/', customerSearchbar);
+
 module.exports = router;

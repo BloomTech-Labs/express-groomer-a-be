@@ -16,6 +16,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all groomers
  ******************************************************************************/
+
 router.get('/',  async (req, res) => {
   try {
     const data = await groomer.getAll();
@@ -28,6 +29,7 @@ router.get('/',  async (req, res) => {
 /******************************************************************************
  *                      GET groomer by user id
  ******************************************************************************/
+
 router.get('/:id',  async (req, res) => {
   try {
     const data = await groomer.getById(req.params.id);
