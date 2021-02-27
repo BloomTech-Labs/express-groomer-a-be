@@ -2,6 +2,7 @@ const authRequired = require('../middleware/authRequired');
 const ratings = require('./ratingsModel');
 const router = require('express').Router({ mergeParams: true });
 
+
 router.all('/', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -11,6 +12,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET ALL ratings by groomer id
  ******************************************************************************/
+
 router.get('/', async (req, res) => {
     try {
 
@@ -39,6 +41,7 @@ router.get('/', async (req, res) => {
 /******************************************************************************
  *                     GET total groomer rating vote count (not average)
  ******************************************************************************/
+
 router.get('/count',  async (req, res) => {
     try {
         const { id : groom_id } = req.params;
@@ -67,6 +70,7 @@ router.get('/count',  async (req, res) => {
 /******************************************************************************
 *                     GET groomer rating (final average)
 ******************************************************************************/
+
 router.get('/average',  async (req, res) => {
     try {
 
@@ -96,6 +100,7 @@ router.get('/average',  async (req, res) => {
 /******************************************************************************
  *           POST/PUT a rating ( if rating relation exists, PUT is triggered) 
  ******************************************************************************/
+
 
 router.post('/',  async (req, res) => {
     try {
@@ -128,11 +133,12 @@ router.post('/',  async (req, res) => {
 
         await ratings.addRating(newRating);
 
+
         res.status(200).json({message: "new rating posted!" , newRating});
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 module.exports = router;
