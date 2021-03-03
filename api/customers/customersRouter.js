@@ -28,8 +28,10 @@ router.get('/', authRequired, async (req, res) => {
 router.get('/:id', authRequired, async (req, res) => {
   try {
     const data = await customer.getById(req.params.id);
-    if (!data){
-      return res.status(404).json({ message: 'User does not exist/ Valid ID required' });
+    if (!data) {
+      return res
+        .status(404)
+        .json({ message: 'User does not exist/ Valid ID required' });
     }
     res.status(200).json(data);
   } catch (err) {
