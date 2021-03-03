@@ -2,6 +2,7 @@ const authRequired = require('../middleware/authRequired');
 const ratings = require('./ratingsModel');
 const router = require('express').Router({ mergeParams: true });
 
+
 router.all('/', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -11,6 +12,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET ALL ratings by groomer id
  ******************************************************************************/
+
 router.get('/', async (req, res) => {
     try {
 
@@ -133,6 +135,5 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 module.exports = router;
