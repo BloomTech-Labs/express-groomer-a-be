@@ -1,4 +1,3 @@
-const authRequired = require('../middleware/authRequired');
 const ratings = require('./ratingsModel');
 const router = require('express').Router({ mergeParams: true });
 
