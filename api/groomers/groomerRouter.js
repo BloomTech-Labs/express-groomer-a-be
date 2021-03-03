@@ -119,6 +119,5 @@ router.post('/license-upload/:id', authRequired, async (req, res) => {
   });
 });
 
-
 router.use('/:id/ratings/', ratingsRouter);
 module.exports = router;
