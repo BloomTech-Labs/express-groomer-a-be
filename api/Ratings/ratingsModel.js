@@ -6,39 +6,39 @@ async function addRating(newRating) {
 }
 
 async function findRatingByUsers(customer_id, groom_id) {
-    return db('rating')
+  return db('rating')
     .where('customer_id', customer_id)
     .andWhere('groom_id', groom_id);
-  }
+}
 
 async function findRatingByGroomer(groom_id) {
   return db('rating')
     .where('groom_id', groom_id)
 }
 
-async function getRatingsAvg(groom_id){
-    return db('rating')
+async function getRatingsAvg(groom_id) {
+  return db('rating')
     .where('groom_id', groom_id)
     .avg('rate')
 }
 
-async function getRatingCount(groom_id){
-    return db('rating')
+async function getRatingCount(groom_id) {
+  return db('rating')
     .where('groom_id', groom_id)
     .count('rate')
 }
 
-async function updateRating(customer_id, groom_id, rate){
-    return db('rating')
+async function updateRating(customer_id, groom_id, rate) {
+  return db('rating')
     .where('customer_id', customer_id)
     .andWhere('groom_id', groom_id)
-    .update({rate:rate})
+    .update({ rate: rate })
 }
 
 
-async function findGroom(groom_id){
-    return db('groomer')
-     .where('user_id', groom_id)
+async function findGroom(groom_id) {
+  return db('groomer')
+    .where('user_id', groom_id)
 }
 
 module.exports = {

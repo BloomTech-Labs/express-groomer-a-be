@@ -14,7 +14,7 @@ router.all('/', function (req, res, next) {
 router.get('/', async (req, res) => {
     try {
 
-        const { id : groom_id } = req.params;
+        const { id: groom_id } = req.params;
 
         if (!groom_id) {
             return res.status(400).json({ message: "Groomer ID required!" });
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
         if (!invalid.length) {
             return res.status(409).json({
                 message: 'No groomer found by said ID',
-              });
+            });
         }
 
         const data = await ratings.findRatingByGroomer(groom_id);
@@ -39,21 +39,21 @@ router.get('/', async (req, res) => {
 /******************************************************************************
  *                     GET total groomer rating vote count (not average)
  ******************************************************************************/
-router.get('/count',  async (req, res) => {
+router.get('/count', async (req, res) => {
     try {
-        const { id : groom_id } = req.params;
+        const { id: groom_id } = req.params;
 
         if (!req.body) {
             return res.status(400).json({ message: "Groomer ID required!" });
         }
 
-        
+
         const invalid = await ratings.findGroom(groom_id);
 
         if (!invalid.length) {
             return res.status(409).json({
                 message: 'No groomer found by said ID',
-              });
+            });
         }
 
         const data = await ratings.getRatingCount(groom_id);
@@ -67,22 +67,22 @@ router.get('/count',  async (req, res) => {
 /******************************************************************************
 *                     GET groomer rating (final average)
 ******************************************************************************/
-router.get('/average',  async (req, res) => {
+router.get('/average', async (req, res) => {
     try {
 
-        const { id : groom_id } = req.params;
+        const { id: groom_id } = req.params;
 
         if (!groom_id) {
             return res.status(400).json({ message: "Groomer ID required!" });
         }
 
-        
+
         const invalid = await ratings.findGroom(groom_id);
 
         if (!invalid.length) {
             return res.status(409).json({
                 message: 'No groomer found by said ID',
-              });
+            });
         }
 
         const data = await ratings.getRatingsAvg(groom_id);
@@ -97,10 +97,10 @@ router.get('/average',  async (req, res) => {
  *           POST/PUT a rating ( if rating relation exists, PUT is triggered) 
  ******************************************************************************/
 
-router.post('/',  async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const validNumz = [1, 2, 3, 4, 5]
-        const { id : groom_id } = req.params;
+        const { id: groom_id } = req.params;
         const { customer_id, rate } = req.body;
         const newRating = { customer_id, groom_id, rate };
 
@@ -110,13 +110,13 @@ router.post('/',  async (req, res) => {
         if (!validNumz.includes(rate)) {
             return res.status(400).json({ message: 'Rating must be int(1-5)!' });
         }
-        
+
         const invalidGroom = await ratings.findGroom(groom_id);
 
         if (!invalidGroom.length) {
             return res.status(409).json({
                 message: 'No groomer found by said ID',
-              });
+            });
         }
 
         const rated = await ratings.findRatingByUsers(customer_id, groom_id);
@@ -128,7 +128,7 @@ router.post('/',  async (req, res) => {
 
         await ratings.addRating(newRating);
 
-        res.status(200).json({message: "new rating posted!" , newRating});
+        res.status(200).json({ message: "new rating posted!", newRating });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
