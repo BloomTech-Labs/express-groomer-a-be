@@ -9,7 +9,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const jsdocConfig = require('../config/jsdoc');
 const dotenv = require('dotenv');
 const config_result = dotenv.config();
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const client = require('twilio')(
   process.env.TWILIO_ACCOUNT_SID,
@@ -132,4 +132,4 @@ app.post('/api/messages', (req, res) => {
     });
 });
 
-module.exports = app;
+module.exports = router;
