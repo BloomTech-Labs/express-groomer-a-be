@@ -40,6 +40,7 @@ const appointmentRouter = require('./appointments/appointmentRouter');
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
 
 const app = express();
+const router = express.Router();
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
