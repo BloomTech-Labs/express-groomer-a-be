@@ -9,6 +9,9 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const jsdocConfig = require('../config/jsdoc');
 const dotenv = require('dotenv');
 const config_result = dotenv.config();
+const bodyparser = require('body-parser');
+const pino = require('express-pino-logger')();
+
 if (process.env.NODE_ENV != 'production' && config_result.error) {
   throw config_result.error;
 }
@@ -56,6 +59,10 @@ app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Twilio JSON Parsers
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(pino);
+
 // application routes
 app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
@@ -94,6 +101,13 @@ app.use(function (err, req, res, next) {
     return res.json(errObject);
   }
   next(err);
+});
+
+// Twilio Requests
+app.get('/api/greeting', (req, res) => {
+  const name = req.query.name || 'World';
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
 module.exports = app;
