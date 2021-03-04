@@ -25,6 +25,8 @@ const swaggerUIOptions = {
   explorer: true,
 };
 
+const app = express();
+
 //###[  Routers ]###
 const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
@@ -38,9 +40,6 @@ const appointmentRouter = require('./appointments/appointmentRouter');
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
 
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
-
-const app = express();
-const router = express.Router();
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -133,4 +132,4 @@ app.post('/api/messages', (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = app;
