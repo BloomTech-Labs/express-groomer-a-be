@@ -5,6 +5,7 @@ const router = express.Router();
 const upload = require('../../services/image-upload');
 const singleUpload = upload.single('image');
 const ratingsRouter = require('../Ratings/ratingsRouter');
+const groomerScheduleRouter = require('../clientScheduling/groomer/groomerScheduleRouter');
 
 router.all('/', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
@@ -119,5 +120,7 @@ router.post('/license-upload/:id', authRequired, async (req, res) => {
   });
 });
 
+
 router.use('/:id/ratings/', ratingsRouter);
+router.use('/:id/groomerSchedule/', groomerScheduleRouter);
 module.exports = router;
