@@ -1,3 +1,4 @@
+/* global formattedServices */
 const schedule = require('../schedulingModel');
 const router = require('express').Router({ mergeParams: true });
 router.all('/', function (req, res, next) {
