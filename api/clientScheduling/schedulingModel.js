@@ -5,14 +5,11 @@ const db = require('../../data/db-config');
  ******************************************************************************/
 
 async function validGroomer(groom_id) {
-    return db('groomer')
-        .where('user_id', groom_id)
+    return db('groomer').where('user_id', groom_id);
 }
 async function validCustomer(customer_id) {
-    return db('customer')
-        .where('user_id', customer_id)
+    return db('customer').where('user_id', customer_id);
 }
-
 
 /******************************************************************************
  *                      DB Locating specific data
@@ -23,41 +20,36 @@ async function appointmentID(customer_id, id) {
         .where('customer_id', customer_id)
         .andWhere('id', id)
         .returning('*');
-};
+}
 
 async function newAppointment(customer_id, groom_id, startTime) {
     return db('scheduling')
         .select('transaction')
         .where('customer_id', customer_id)
         .andWhere('groom_id', groom_id)
-        .andWhere('startTime', startTime)
-};
+        .andWhere('startTime', startTime);
+}
 
 async function specificApp(date, startTime) {
     return db('scheduling')
         .where('date', date)
         .andWhere('startTime', startTime)
-        .andWhere('confirmation', '=', true)
-};
+        .andWhere('confirmation', '=', true);
+}
 
 async function findAppointmentsByCustomerId(customer_id) {
-    return db('scheduling')
-        .where('customer_id', customer_id)
-        .returning('*');
-};
+    return db('scheduling').where('customer_id', customer_id).returning('*');
+}
 
 async function findAppointmentsByGroomerId(groom_id) {
-    return db('scheduling')
-        .where('groom_id', groom_id)
-        .returning('*');
-};
+    return db('scheduling').where('groom_id', groom_id).returning('*');
+}
 
 async function findAppointmentsByRelation(customer_id, groom_id) {
     return db('scheduling')
         .where('customer_id', customer_id)
-        .andWhere('groom_id', groom_id)
-};
-
+        .andWhere('groom_id', groom_id);
+}
 
 async function findAppointmentsByDate(customer_id, date) {
     return db('scheduling')
@@ -74,15 +66,15 @@ async function findAppointmentsByDate(customer_id, date) {
             'groomer.city',
             'groomer.state',
             'groomer.address',
-            'groomer.zip_code')
+            'groomer.zip_code'
+        )
         .where('customer_id', customer_id)
         .andWhere('date', date);
-};
+}
 
 /******************************************************************************
-*                      Appointment request joins
-******************************************************************************/
-
+ *                      Appointment request joins
+ ******************************************************************************/
 
 async function getAppointmentsGroomer(groom_id) {
     return db('customer')
@@ -102,10 +94,10 @@ async function getAppointmentsGroomer(groom_id) {
             'scheduling.date',
             'scheduling.startTime',
             'scheduling.endTime',
-            'scheduling.confirmation',
+            'scheduling.confirmation'
         )
-        .where('scheduling.groom_id', groom_id)
-};
+        .where('scheduling.groom_id', groom_id);
+}
 
 async function getAppointmentsCustomer(customer_id) {
     return db('groomer')
@@ -127,35 +119,41 @@ async function getAppointmentsCustomer(customer_id) {
             'scheduling.date',
             'scheduling.startTime',
             'scheduling.endTime',
-            'scheduling.confirmation',
+            'scheduling.confirmation'
         )
-        .where('scheduling.customer_id', customer_id)
-};
+        .where('scheduling.customer_id', customer_id);
+}
 
 async function getAppointmentItems(value) {
     return db('services')
-        .innerJoin('appointment_service', 'appointment_service.service_id', 'services.id')
+        .innerJoin(
+            'appointment_service',
+            'appointment_service.service_id',
+            'services.id'
+        )
         .select('services.service_name')
-        .where('appointment_service.item_id', value)
-};
+        .where('appointment_service.item_id', value);
+}
 
 /******************************************************************************
  *                      DB inserts/updates
  ******************************************************************************/
 
 async function addAppointment(newApp) {
-    return db('scheduling').insert(newApp).returning('*')
-};
+    return db('scheduling').insert(newApp).returning('*');
+}
 
 async function addCart(transaction) {
-    return db('appointment_cart').insert({ cart_id: transaction })
-};
+    return db('appointment_cart').insert({ cart_id: transaction });
+}
 
 async function addItems(item, transaction) {
-    await db('appointment_service')
-        .insert({ item_id: transaction, service_id: item })
-    return getAppointmentItems(item)
-};
+    await db('appointment_service').insert({
+        item_id: transaction,
+        service_id: item,
+    });
+    return getAppointmentItems(item);
+}
 
 async function updateConfirmation(customer_id, groom_id, start, confirmation) {
     return db('scheduling')
@@ -171,8 +169,6 @@ async function remove(customer_id, groom_id) {
         .andWhere('groom_id', groom_id)
         .del();
 }
-
-
 
 module.exports = {
     addAppointment,
@@ -192,4 +188,4 @@ module.exports = {
     newAppointment,
     addCart,
     addItems,
-}
+};

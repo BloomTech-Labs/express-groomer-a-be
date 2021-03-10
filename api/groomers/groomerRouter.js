@@ -120,7 +120,6 @@ router.post('/license-upload/:id', authRequired, async (req, res) => {
   });
 });
 
-
 router.use('/:id/ratings/', ratingsRouter);
 router.use('/:id/groomerSchedule/', groomerScheduleRouter);
 module.exports = router;
