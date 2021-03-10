@@ -1,3 +1,4 @@
+/* global formattedServices:writable */
 const schedule = require('../schedulingModel');
 const router = require('express').Router({ mergeParams: true });
 
