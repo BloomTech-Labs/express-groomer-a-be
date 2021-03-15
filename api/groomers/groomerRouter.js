@@ -4,6 +4,8 @@ const groomer = require('./groomerModel');
 const router = express.Router();
 const upload = require('../../services/image-upload');
 const singleUpload = upload.single('image');
+const ratingsRouter = require('../Ratings/ratingsRouter');
+const groomerScheduleRouter = require('../clientScheduling/groomer/groomerScheduleRouter');
 
 router.all('/', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN);
@@ -14,7 +16,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET all groomers
  ******************************************************************************/
-router.get('/', authRequired, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const data = await groomer.getAll();
     res.status(200).json(data);
@@ -26,7 +28,7 @@ router.get('/', authRequired, async (req, res) => {
 /******************************************************************************
  *                      GET groomer by user id
  ******************************************************************************/
-router.get('/:id', authRequired, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const data = await groomer.getById(req.params.id);
     console.log(data);
@@ -39,7 +41,7 @@ router.get('/:id', authRequired, async (req, res) => {
 /******************************************************************************
  *                      POST new groomer
  ******************************************************************************/
-router.post('/', authRequired, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     //checking to see if user already exists
     let user = undefined;
@@ -118,4 +120,6 @@ router.post('/license-upload/:id', authRequired, async (req, res) => {
   });
 });
 
+router.use('/:id/ratings/', ratingsRouter);
+router.use('/:id/groomerSchedule/', groomerScheduleRouter);
 module.exports = router;

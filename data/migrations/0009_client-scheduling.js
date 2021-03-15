@@ -1,6 +1,6 @@
 exports.up = async (knex) => {
-  await knex.schema.createTable('rating', (table) => {
-    table.increments('id');
+  await knex.schema.createTable('scheduling', (table) => {
+    table.increments('transaction').primary();
     table
       .string('customer_id')
       .references('user_id')
@@ -15,10 +15,13 @@ exports.up = async (knex) => {
       .onDelete('cascade')
       .onUpdate('cascade')
       .notNull();
-    table.integer('rate').notNull();
+    table.boolean('confirmation').defaultTo(null);
+    table.date('date', { useTz: false }).notNull();
+    table.time('startTime').notNull();
+    table.time('endTime').notNull();
   });
 };
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('rating');
+  await knex.schema.dropTableIfExists('scheduling');
 };
