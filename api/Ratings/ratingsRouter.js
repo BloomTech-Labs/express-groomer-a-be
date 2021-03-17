@@ -97,11 +97,13 @@ router.post('/', async (req, res) => {
   try {
     const validNumz = [1, 2, 3, 4, 5];
     const { id: groom_id } = req.params;
-    const { customer_id, rate , comment} = req.body;
-    const newRating = { customer_id, groom_id, rate, comment};
+    const { customer_id, rate, comment } = req.body;
+    const newRating = { customer_id, groom_id, rate, comment };
 
     if (comment.length > 180) {
-      return res.status(404).json({ message: 'Please reduce review comment to 180 characters or less.' });
+      return res.status(404).json({
+        message: 'Please reduce review comment to 180 characters or less.',
+      });
     }
     if (!customer_id || !rate) {
       return res.status(404).json({ message: 'Missing required fields' });
