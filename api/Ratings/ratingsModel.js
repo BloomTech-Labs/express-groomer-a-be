@@ -22,11 +22,11 @@ async function getRatingCount(groom_id) {
   return db('rating').where('groom_id', groom_id).count('rate');
 }
 
-async function updateRating(customer_id, groom_id, rate) {
+async function updateRating(customer_id, groom_id, rate, comment) {
   return db('rating')
     .where('customer_id', customer_id)
     .andWhere('groom_id', groom_id)
-    .update({ rate: rate });
+    .update({rate: rate, comment: comment});
 }
 
 async function findGroom(groom_id) {
