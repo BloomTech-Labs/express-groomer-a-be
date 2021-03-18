@@ -9,8 +9,8 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const jsdocConfig = require('../config/jsdoc');
 const dotenv = require('dotenv');
 const config_result = dotenv.config();
-// const bodyParser = require('body-parser');
-// const pino = require('express-pino-logger')();
+const bodyParser = require('body-parser');
+const pino = require('express-pino-logger')();
 const client = require('twilio')(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
@@ -34,7 +34,7 @@ const servicesRouter = require('./services/servicesRouter');
 const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
 const petRouter = require('./pets/petsRouter');
 const ratingsRouter = require('./Ratings/ratingsRouter');
-const appointmentRouter = require('./appointments/appointmentRouter');
+// const appointmentRouter = require('./appointments/appointmentRouter');
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
 
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
@@ -64,9 +64,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Twilio JSON Parsers
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(pino);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(pino);
 
 // application routes
 app.use('/', indexRouter);
@@ -77,7 +77,7 @@ app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
 app.use('/ratings', ratingsRouter);
-app.use('/appointments', appointmentRouter);
+// app.use('/appointments', appointmentRouter);
 
 //app.use('/favorites', favoritesRouter)
 
