@@ -16,8 +16,9 @@ exports.up = async (knex) => {
       .onDelete('cascade')
       .onUpdate('cascade')
       .notNull();
-    table.enu('confirmation', ['accepted', 'pending', 'declined', 'canceled'])
-    .defaultTo('pending');
+    table
+      .enu('confirmation', ['accepted', 'pending', 'declined', 'canceled'])
+      .defaultTo('pending');
     table.date('date', { useTz: false }).notNull();
     table.time('startTime').notNull();
     table.time('endTime').notNull();

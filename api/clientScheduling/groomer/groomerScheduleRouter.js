@@ -72,38 +72,37 @@ router.get('/:customer_id', async (req, res) => {
 
 router.put('/confirm', async (req, res) => {
   try {
-    const { id: groom_id} = req.params;
-    const { confirmation , transaction_id} = req.body;
-    const confirmations = ['accepted','declined','pending','canceled']
+    const { id: groom_id } = req.params;
+    const { confirmation, transaction_id } = req.body;
+    const confirmations = ['accepted', 'declined', 'pending', 'canceled'];
 
     if (!transaction_id || !groom_id) {
       return res.status(400).json({
-        message:
-          'Appointment transaction id and groomer_id required!',
+        message: 'Appointment transaction id and groomer_id required!',
       });
     }
 
     if (!confirmations.includes(confirmation)) {
-      return res
-        .status(400)
-        .json({ message: 'Confirmation of (accepted, declined, pending, canceled) ONLY' });
+      return res.status(400).json({
+        message: 'Confirmation of (accepted, declined, pending, canceled) ONLY',
+      });
     }
 
     const valid = await schedule.updateConfirmation(
-        groom_id,
-        transaction_id,
-        confirmation
-      );
+      groom_id,
+      transaction_id,
+      confirmation
+    );
 
-    if(valid == 0){
-      console.log(valid)
-      return res.status(400)
-      .json({ message: `Could not find appointment by provided id of ${transaction_id}`})
-    }  
-      return res.status(200).json({
-        message: `Appointment ${confirmation}`,
+    if (valid == 0) {
+      console.log(valid);
+      return res.status(400).json({
+        message: `Could not find appointment by provided id of ${transaction_id}`,
+      });
+    }
+    return res.status(200).json({
+      message: `Appointment ${confirmation}`,
     });
-      
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

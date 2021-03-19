@@ -114,39 +114,43 @@ router.post('/:groom_id', async (req, res) => {
  *   PUT appointments ( Customer driven appointment edit (resets confirmation!) )
  ******************************************************************************/
 
- router.put('/confirm', async (req, res) => {
+router.put('/confirm', async (req, res) => {
   try {
     const { customer_id } = req.params;
-    const { date, startTime, services, transaction_id, confirmation} = req.body;
+    const {
+      date,
+      startTime,
+      services,
+      transaction_id,
+      confirmation,
+    } = req.body;
 
     if (!customer_id || !transaction_id) {
       return res.status(400).json({
-        message:
-          'customer id and transaction id required!',
+        message: 'customer id and transaction id required!',
       });
     }
 
     const updateData = {
       date: date,
       startTime: startTime,
-      confirmation: confirmation ? "canceled" : "pending"
+      confirmation: confirmation ? 'canceled' : 'pending',
     };
 
     const data = await schedule.findAppointmentsAppUpdateCustomer(
-      transaction_id, customer_id
+      transaction_id,
+      customer_id
     );
 
     if (!data.length) {
-      return res.status(400).json({ message: 'No appointment found',
-      });
+      return res.status(400).json({ message: 'No appointment found' });
     }
 
-    await schedule.updateAppointment(transaction_id, updateData, services)
+    await schedule.updateAppointment(transaction_id, updateData, services);
 
-      return res.status(200).json({
-        message: `Appointment updated, ${confirmation ? "canceled" : "pending"}.`
-      });
-
+    return res.status(200).json({
+      message: `Appointment updated, ${confirmation ? 'canceled' : 'pending'}.`,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

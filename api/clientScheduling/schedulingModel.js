@@ -35,7 +35,7 @@ async function appConfirmationSearch(customer_id, groom_id, date, startTime) {
     .where('date', date)
     .andWhere('startTime', startTime)
     .andWhere('customer_id', customer_id)
-    .andWhere('groom_id', groom_id)
+    .andWhere('groom_id', groom_id);
 }
 
 async function specificApp(date, startTime) {
@@ -61,14 +61,14 @@ async function findAppointmentsByRelation(customer_id, groom_id) {
 
 async function findAppointmentsAppUpdate(transaction_id, groom_id) {
   return db('scheduling')
-  .where('groom_id', groom_id)
-  .where('transaction', transaction_id);
+    .where('groom_id', groom_id)
+    .where('transaction', transaction_id);
 }
 
 async function findAppointmentsAppUpdateCustomer(transaction_id, customer_id) {
   return db('scheduling')
-  .where('customer_id', customer_id)
-  .andWhere('transaction', transaction_id)
+    .where('customer_id', customer_id)
+    .andWhere('transaction', transaction_id);
 }
 
 async function findAppointmentsByDate(customer_id, date) {
@@ -168,15 +168,16 @@ async function updateAppointment(transaction_id, updateData, services) {
     .where('transaction', transaction_id)
     .update(updateData)
     .then(
-      await db('appointment_service')
-        .where('item_id', transaction_id)
-        .del())
+      await db('appointment_service').where('item_id', transaction_id).del()
+    )
     .then(
       services.forEach(async (item) => {
-        await db('appointment_service')
-          .insert({ item_id: transaction_id, service_id: item })
+        await db('appointment_service').insert({
+          item_id: transaction_id,
+          service_id: item,
+        });
       })
-    )
+    );
 }
 
 async function addCart(transaction) {
