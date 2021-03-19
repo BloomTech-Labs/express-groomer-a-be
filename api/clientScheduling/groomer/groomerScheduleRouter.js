@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
               formattedServices = services.map(
                 (service) => service.service_name
               );
-              return { ...appointment, ...{ transaction: formattedServices } };
+              return { ...appointment, ...{ cart: formattedServices } };
             })
         )
       )
@@ -58,7 +58,7 @@ router.get('/:customer_id', async (req, res) => {
               formattedServices = services.map(
                 (service) => service.service_name
               );
-              return { ...appointment, ...{ transaction: formattedServices } };
+              return { ...appointment, ...{ cart: formattedServices } };
             })
         )
       )
@@ -70,42 +70,39 @@ router.get('/:customer_id', async (req, res) => {
  *                     PUT appointments ( groomer appointment confirmation! )
  ******************************************************************************/
 
-router.put('/confirm/:customer_id', async (req, res) => {
+router.put('/confirm', async (req, res) => {
   try {
-    const { id: groom_id, customer_id } = req.params;
-    const { confirmation, start } = req.body;
+    const { id: groom_id } = req.params;
+    const { confirmation, transaction_id } = req.body;
+    const confirmations = ['accepted', 'declined', 'pending', 'canceled'];
 
-    if (!groom_id || !customer_id || !start) {
+    if (!transaction_id || !groom_id) {
       return res.status(400).json({
-        message:
-          'Groomer id, customer id, appointment start time, and confirmation required!',
+        message: 'Appointment transaction id and groomer_id required!',
       });
     }
 
-    if (typeof confirmation != 'boolean') {
-      return res
-        .status(400)
-        .json({ message: 'Confirmation requires a boolean value' });
+    if (!confirmations.includes(confirmation)) {
+      return res.status(400).json({
+        message: 'Confirmation of (accepted, declined, pending, canceled) ONLY',
+      });
     }
 
-    const data = await schedule.findAppointmentsByRelation(
-      customer_id,
-      groom_id
+    const valid = await schedule.updateConfirmation(
+      groom_id,
+      transaction_id,
+      confirmation
     );
 
-    if (data.length) {
-      await schedule.updateConfirmation(
-        customer_id,
-        groom_id,
-        start,
-        confirmation
-      );
-      return res.status(200).json({
-        message: `${
-          confirmation ? 'appoinment accepted!' : 'appointment declined!'
-        }`,
+    if (valid == 0) {
+      console.log(valid);
+      return res.status(400).json({
+        message: `Could not find appointment by provided id of ${transaction_id}`,
       });
     }
+    return res.status(200).json({
+      message: `Appointment ${confirmation}`,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
