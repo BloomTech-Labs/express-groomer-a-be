@@ -59,13 +59,17 @@ async function findAppointmentsByRelation(customer_id, groom_id) {
     .andWhere('groom_id', groom_id);
 }
 
-async function findAppointmentsAppUpdate(customer_id, groom_id) {
+async function findAppointmentsAppUpdate(transaction_id, groom_id) {
   return db('scheduling')
-    .select('transaction')
-    .where('customer_id', customer_id)
-    .andWhere('groom_id', groom_id);
+  .where('groom_id', groom_id)
+  .where('transaction', transaction_id);
 }
 
+async function findAppointmentsAppUpdateCustomer(transaction_id, customer_id) {
+  return db('scheduling')
+  .where('customer_id', customer_id)
+  .andWhere('transaction', transaction_id)
+}
 
 async function findAppointmentsByDate(customer_id, date) {
   return db('scheduling')
@@ -159,18 +163,20 @@ async function addAppointment(newApp) {
   return db('scheduling').insert(newApp).returning('*');
 }
 
-async function updateAppointment(id, updateData, services){
+async function updateAppointment(transaction_id, updateData, services) {
   await db('scheduling')
-  .where('transaction', id)
-  .update(updateData)
-  .returning('*')
-  .then(
-    services.forEach(async (item) => {
+    .where('transaction', transaction_id)
+    .update(updateData)
+    .then(
       await db('appointment_service')
-      .where('item_id', id)
-      .update({service_id:item})
-    }) 
-  )
+        .where('item_id', transaction_id)
+        .del())
+    .then(
+      services.forEach(async (item) => {
+        await db('appointment_service')
+          .insert({ item_id: transaction_id, service_id: item })
+      })
+    )
 }
 
 async function addCart(transaction) {
@@ -185,12 +191,10 @@ async function addItems(item, transaction) {
   return getAppointmentItems(item);
 }
 
-async function updateConfirmation(customer_id, groom_id, start, date, confirmation) {
+async function updateConfirmation(groom_id, transaction_id, confirmation) {
   return db('scheduling')
-    .where('customer_id', customer_id)
-    .andWhere('groom_id', groom_id)
-    .andWhere('startTime', start)
-    .andWhere('date', date)
+    .where('groom_id', groom_id)
+    .where('transaction', transaction_id)
     .update({ confirmation: confirmation });
 }
 
@@ -209,6 +213,7 @@ module.exports = {
   findAppointmentsByGroomerId,
   findAppointmentsByDate,
   findAppointmentsAppUpdate,
+  findAppointmentsAppUpdateCustomer,
   remove,
   updateConfirmation,
   updateAppointment,

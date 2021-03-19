@@ -56,7 +56,7 @@ router.get('/:groom_id', async (req, res) => {
               formattedServices = services.map(
                 (service) => service.service_name
               );
-              return { ...appointment, ...{ transaction: formattedServices } };
+              return { ...appointment, ...{ cart: formattedServices } };
             })
         )
       )
@@ -114,39 +114,39 @@ router.post('/:groom_id', async (req, res) => {
  *   PUT appointments ( Customer driven appointment edit (resets confirmation!) )
  ******************************************************************************/
 
- router.put('/confirm/:groom_id', async (req, res) => {
+ router.put('/confirm', async (req, res) => {
   try {
-    const { customer_id, groom_id } = req.params;
-    const { date, startTime, services} = req.body;
+    const { customer_id } = req.params;
+    const { date, startTime, services, transaction_id, confirmation} = req.body;
 
-    if (!groom_id || !customer_id) {
+    if (!customer_id || !transaction_id) {
       return res.status(400).json({
         message:
-          'Groomer id, customer id required!',
+          'customer id and transaction id required!',
       });
     }
 
     const updateData = {
       date: date,
       startTime: startTime,
-      confirmation: null,
+      confirmation: confirmation ? "canceled" : "pending"
     };
 
-    const data = await schedule.findAppointmentsAppUpdate(
-      customer_id,
-      groom_id
+    const data = await schedule.findAppointmentsAppUpdateCustomer(
+      transaction_id, customer_id
     );
 
-    if (data.length) {
-      const id = data[0].transaction
-      const updApp = await schedule.updateAppointment(
-        id, updateData, services
-      );
-
-      return res.status(200).json({
-        message: "Appointment updated, confirmation pending.", updApp
+    if (!data.length) {
+      return res.status(400).json({ message: 'No appointment found',
       });
     }
+
+    await schedule.updateAppointment(transaction_id, updateData, services)
+
+      return res.status(200).json({
+        message: `Appointment updated, ${confirmation ? "canceled" : "pending"}.`
+      });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
