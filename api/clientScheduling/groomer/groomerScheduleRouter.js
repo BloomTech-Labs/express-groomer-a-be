@@ -73,24 +73,27 @@ router.get('/:customer_id', async (req, res) => {
 router.put('/confirm/:customer_id', async (req, res) => {
   try {
     const { id: groom_id, customer_id } = req.params;
-    const { confirmation, start } = req.body;
+    const { confirmation, start, date } = req.body;
 
-    if (!groom_id || !customer_id || !start) {
+    if (!start || !date) {
       return res.status(400).json({
         message:
-          'Groomer id, customer id, appointment start time, and confirmation required!',
+          'Appointment time and date required!',
       });
     }
-
-    if (typeof confirmation != 'boolean') {
+    const confirmations = ['accepted','declined','pending','canceled']
+    
+    if (!confirmations.includes(confirmation)) {
       return res
         .status(400)
-        .json({ message: 'Confirmation requires a boolean value' });
+        .json({ message: 'Confirmation of (accepted, declined, pending, canceled) ONLY' });
     }
 
-    const data = await schedule.findAppointmentsByRelation(
+    const data = await schedule.appConfirmationSearch(
       customer_id,
-      groom_id
+      groom_id,
+      date,
+      start
     );
 
     if (data.length) {
@@ -98,12 +101,12 @@ router.put('/confirm/:customer_id', async (req, res) => {
         customer_id,
         groom_id,
         start,
+        date,
         confirmation
       );
       return res.status(200).json({
-        message: `${
-          confirmation ? 'appoinment accepted!' : 'appointment declined!'
-        }`,
+        message: 
+        `Appointment ${confirmation}`,
       });
     }
   } catch (err) {

@@ -1,6 +1,7 @@
 exports.up = async (knex) => {
   await knex.schema.createTable('scheduling', (table) => {
     table.increments('transaction').primary();
+    table.string('cart');
     table
       .string('customer_id')
       .references('user_id')
@@ -15,7 +16,8 @@ exports.up = async (knex) => {
       .onDelete('cascade')
       .onUpdate('cascade')
       .notNull();
-    table.boolean('confirmation').defaultTo(null);
+    table.enu('confirmation', ['accepted', 'pending', 'declined', 'canceled'])
+    .defaultTo('pending');
     table.date('date', { useTz: false }).notNull();
     table.time('startTime').notNull();
     table.time('endTime').notNull();

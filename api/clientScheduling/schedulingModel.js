@@ -30,11 +30,19 @@ async function newAppointment(customer_id, groom_id, startTime) {
     .andWhere('startTime', startTime);
 }
 
+async function appConfirmationSearch(customer_id, groom_id, date, startTime) {
+  return db('scheduling')
+    .where('date', date)
+    .andWhere('startTime', startTime)
+    .andWhere('customer_id', customer_id)
+    .andWhere('groom_id', groom_id)
+}
+
 async function specificApp(date, startTime) {
   return db('scheduling')
     .where('date', date)
     .andWhere('startTime', startTime)
-    .andWhere('confirmation', '=', true);
+    .andWhere('confirmation', '=', 'accepted');
 }
 
 async function findAppointmentsByCustomerId(customer_id) {
@@ -50,6 +58,14 @@ async function findAppointmentsByRelation(customer_id, groom_id) {
     .where('customer_id', customer_id)
     .andWhere('groom_id', groom_id);
 }
+
+async function findAppointmentsAppUpdate(customer_id, groom_id) {
+  return db('scheduling')
+    .select('transaction')
+    .where('customer_id', customer_id)
+    .andWhere('groom_id', groom_id);
+}
+
 
 async function findAppointmentsByDate(customer_id, date) {
   return db('scheduling')
@@ -143,6 +159,20 @@ async function addAppointment(newApp) {
   return db('scheduling').insert(newApp).returning('*');
 }
 
+async function updateAppointment(id, updateData, services){
+  await db('scheduling')
+  .where('transaction', id)
+  .update(updateData)
+  .returning('*')
+  .then(
+    services.forEach(async (item) => {
+      await db('appointment_service')
+      .where('item_id', id)
+      .update({service_id:item})
+    }) 
+  )
+}
+
 async function addCart(transaction) {
   return db('appointment_cart').insert({ cart_id: transaction });
 }
@@ -155,11 +185,12 @@ async function addItems(item, transaction) {
   return getAppointmentItems(item);
 }
 
-async function updateConfirmation(customer_id, groom_id, start, confirmation) {
+async function updateConfirmation(customer_id, groom_id, start, date, confirmation) {
   return db('scheduling')
     .where('customer_id', customer_id)
     .andWhere('groom_id', groom_id)
     .andWhere('startTime', start)
+    .andWhere('date', date)
     .update({ confirmation: confirmation });
 }
 
@@ -177,13 +208,16 @@ module.exports = {
   findAppointmentsByRelation,
   findAppointmentsByGroomerId,
   findAppointmentsByDate,
+  findAppointmentsAppUpdate,
   remove,
   updateConfirmation,
+  updateAppointment,
   validCustomer,
   appointmentID,
   getAppointmentsGroomer,
   getAppointmentsCustomer,
   getAppointmentItems,
+  appConfirmationSearch,
   specificApp,
   newAppointment,
   addCart,

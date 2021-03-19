@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
               formattedServices = services.map(
                 (service) => service.service_name
               );
-              return { ...appointment, ...{ transaction: formattedServices } };
+              return { ...appointment, ...{ cart: formattedServices } };
             })
         )
       )
@@ -103,6 +103,48 @@ router.post('/:groom_id', async (req, res) => {
 
       res.status(200).json({
         data: appointment,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+/******************************************************************************
+ *   PUT appointments ( Customer driven appointment edit (resets confirmation!) )
+ ******************************************************************************/
+
+ router.put('/confirm/:groom_id', async (req, res) => {
+  try {
+    const { customer_id, groom_id } = req.params;
+    const { date, startTime, services} = req.body;
+
+    if (!groom_id || !customer_id) {
+      return res.status(400).json({
+        message:
+          'Groomer id, customer id required!',
+      });
+    }
+
+    const updateData = {
+      date: date,
+      startTime: startTime,
+      confirmation: null,
+    };
+
+    const data = await schedule.findAppointmentsAppUpdate(
+      customer_id,
+      groom_id
+    );
+
+    if (data.length) {
+      const id = data[0].transaction
+      const updApp = await schedule.updateAppointment(
+        id, updateData, services
+      );
+
+      return res.status(200).json({
+        message: "Appointment updated, confirmation pending.", updApp
       });
     }
   } catch (err) {
