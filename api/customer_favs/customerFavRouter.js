@@ -27,10 +27,9 @@ router.get('/', authRequired, async (req, res) => {
  *                      POST customer favorite by ID
  ******************************************************************************/
 
-router.post('/', authRequired, async (req, res) => {
+router.post('/:groom_id', authRequired, async (req, res) => {
   try {
-    const { customer_id } = req.params;
-    const { groom_id } = req.body;
+    const { customer_id, groom_id } = req.params;
 
     if (!groom_id) {
       return res.status(404).json({ message: 'Missing required id(groomer).' });
@@ -70,10 +69,9 @@ router.post('/', authRequired, async (req, res) => {
 /******************************************************************************
  *                      DELETE customer favorite by ID
  ******************************************************************************/
-router.delete('/', authRequired, async (req, res) => {
+router.delete('/:groom_id', authRequired, async (req, res) => {
   try {
-    const { customer_id } = req.params;
-    const { groom_id } = req.body;
+    const { customer_id, groom_id } = req.params;
 
     const findGroom = await favs.findGroom(groom_id);
 
