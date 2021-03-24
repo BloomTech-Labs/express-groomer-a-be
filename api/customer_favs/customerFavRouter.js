@@ -11,7 +11,7 @@ router.all('/', function (req, res, next) {
 /******************************************************************************
  *                      GET ALL customer fav's by user id
  ******************************************************************************/
-router.get('/', authRequired,  async (req, res) => {
+router.get('/', authRequired, async (req, res) => {
   try {
     const { customer_id: id } = req.params;
 
@@ -29,7 +29,7 @@ router.get('/', authRequired,  async (req, res) => {
 
 router.post('/:groom_id', authRequired, async (req, res) => {
   try {
-    const { customer_id, groom_id} = req.params;
+    const { customer_id, groom_id } = req.params;
 
     if (!groom_id) {
       return res.status(404).json({ message: 'Missing required id(groomer).' });
