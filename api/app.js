@@ -115,7 +115,8 @@ app.use(function (err, req, res, next) {
 
 // Twilio Requests
 app.get('/greeting', (req, res) => {
-  res.send('Welcome to the Express Server');
+  res.header('Content-Type', 'application/json');
+  res.send(JSON.stringify('Welcome to the Express Server'));
 });
 
 // app.post('/api/messages', (req, res) => {
