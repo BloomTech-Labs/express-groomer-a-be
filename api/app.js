@@ -9,6 +9,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const jsdocConfig = require('../config/jsdoc');
 const dotenv = require('dotenv');
 const config_result = dotenv.config();
+const twilio = require('twilio');
 // const bodyParser = require('body-parser');
 // const pino = require('express-pino-logger')();
 // const client = require('twilio')(
@@ -115,8 +116,9 @@ app.use(function (err, req, res, next) {
 
 // Twilio Requests
 app.get('/greeting', (req, res) => {
-  res.header('Content-Type', 'application/json');
-  res.send(JSON.stringify('Welcome to the Express Server'));
+  // res.header('Content-Type', 'application/json');
+  // res.send(JSON.stringify('Welcome to the Express Server'));
+  res.send('Welcome to the Express Server!');
 });
 
 // app.post('/api/messages', (req, res) => {
