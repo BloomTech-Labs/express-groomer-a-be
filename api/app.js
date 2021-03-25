@@ -40,7 +40,6 @@ const servicesRouter = require('./services/servicesRouter');
 const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
 const petRouter = require('./pets/petsRouter');
 const ratingsRouter = require('./Ratings/ratingsRouter');
-const twilioRouter = require('./twilio/twilioRouter');
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
 
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
@@ -83,9 +82,30 @@ app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
 app.use('/ratings', ratingsRouter);
-app.use('/greeting', twilioRouter);
 
 //app.use('/favorites', favoritesRouter)
+
+// Twilio Requests
+app.get('/greeting', (req, res) => {
+  // res.header('Content-Type', 'application/json');
+  // res.send(JSON.stringify('Welcome to the Express Server'));
+  res.status(200).json({ message: 'Welcome to the Express Server!' });
+});
+
+// Twilio Text
+app.get('/send-text', (req, res) => {
+  // _GET_ Variables, passed via query string
+  const { recipient, textmessage } = req.query;
+
+  // Send Text
+  client.messages
+    .create({
+      body: textmessage,
+      to: recipient,
+      from: '+14243444404',
+    })
+    .then((message) => console.log(message.body));
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -114,13 +134,6 @@ app.use(function (err, req, res, next) {
   next(err);
 });
 
-// Twilio Requests
-// app.get('/greeting', (req, res) => {
-//   // res.header('Content-Type', 'application/json');
-//   // res.send(JSON.stringify('Welcome to the Express Server'));
-//   res.status(200).json({ message: 'Welcome to the Express Server!' });
-// });
-
 // app.post('/api/messages', (req, res) => {
 //   res.header('Content-Type', 'application/json');
 //   client.messages
@@ -137,20 +150,5 @@ app.use(function (err, req, res, next) {
 //       res.send(JSON.stringify({ success: false }));
 //     });
 // });
-
-// Twilio Text
-app.get('/send-text', (req, res) => {
-  // _GET_ Variables, passed via query string
-  const { recipient, textmessage } = req.query;
-
-  // Send Text
-  client.messages
-    .create({
-      body: textmessage,
-      to: recipient,
-      from: '+14243444404',
-    })
-    .then((message) => console.log(message.body));
-});
 
 module.exports = app;
