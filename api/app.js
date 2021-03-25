@@ -83,6 +83,7 @@ app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
 app.use('/ratings', ratingsRouter);
+app.use('/greeting');
 // app.use('/appointments', appointmentRouter);
 
 //app.use('/favorites', favoritesRouter)
@@ -118,7 +119,7 @@ app.use(function (err, req, res, next) {
 app.get('/greeting', (req, res) => {
   // res.header('Content-Type', 'application/json');
   // res.send(JSON.stringify('Welcome to the Express Server'));
-  res.send('Welcome to the Express Server!');
+  res.send({ message: 'Welcome to the Express Server!' });
 });
 
 // app.post('/api/messages', (req, res) => {
