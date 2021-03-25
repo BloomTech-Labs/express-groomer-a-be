@@ -40,7 +40,7 @@ const servicesRouter = require('./services/servicesRouter');
 const groomerServicesRouter = require('./groomerservices/groomerServicesRouter');
 const petRouter = require('./pets/petsRouter');
 const ratingsRouter = require('./Ratings/ratingsRouter');
-// const appointmentRouter = require('./appointments/appointmentRouter');
+const twilioRouter = require('./twilio/twilioRouter');
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
 
 //const favoritesRouter = require('./customer_favs/customerFavRouter')
@@ -83,8 +83,7 @@ app.use(['/services', '/services'], servicesRouter);
 app.use(['/groomerservices', '/groomer_services'], groomerServicesRouter);
 app.use('/pets', petRouter);
 app.use('/ratings', ratingsRouter);
-app.use('/greeting');
-// app.use('/appointments', appointmentRouter);
+app.use('/greeting', twilioRouter);
 
 //app.use('/favorites', favoritesRouter)
 
@@ -116,11 +115,11 @@ app.use(function (err, req, res, next) {
 });
 
 // Twilio Requests
-app.get('/greeting', (req, res) => {
-  // res.header('Content-Type', 'application/json');
-  // res.send(JSON.stringify('Welcome to the Express Server'));
-  res.send({ message: 'Welcome to the Express Server!' });
-});
+// app.get('/greeting', (req, res) => {
+//   // res.header('Content-Type', 'application/json');
+//   // res.send(JSON.stringify('Welcome to the Express Server'));
+//   res.status(200).json({ message: 'Welcome to the Express Server!' });
+// });
 
 // app.post('/api/messages', (req, res) => {
 //   res.header('Content-Type', 'application/json');
