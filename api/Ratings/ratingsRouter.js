@@ -93,7 +93,7 @@ router.get('/average', async (req, res) => {
  *           POST/PUT a rating ( if rating relation exists, PUT is triggered)
  ******************************************************************************/
 
-router.post('/', async (req, res) => {
+router.post('/:customer_id', async (req, res) => {
   try {
     const { id: groom_id, customer_id } = req.params;
     const { rate, comment } = req.body;
