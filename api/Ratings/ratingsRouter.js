@@ -94,42 +94,42 @@ router.get('/average', async (req, res) => {
  ******************************************************************************/
 
 router.post('/', async (req, res) => {
-    try {
-      const { id: groom_id, customer_id } = req.params;
-      const { rate, comment } = req.body;
-      const newRating = { customer_id, groom_id, rate, comment };
-  
-      if (comment.length > 180) {
-        return res.status(400).json({
-          message: 'Please reduce review comment to 180 characters or less.',
-        });
-      }
-  
-      if (!(rate <= 5 && rate >= 0)) {
-        return res.status(400).json({ message: 'Rating must be float(0-5)!' });
-      }
-  
-      const invalidGroom = await ratings.findGroom(groom_id);
-  
-      if (!invalidGroom.length) {
-        return res.status(409).json({
-          message: 'No groomer found by said ID',
-        });
-      }
-  
-      const rated = await ratings.findRatingByUsers(customer_id, groom_id);
-  
-      if (rated.length) {
-        await ratings.updateRating(customer_id, groom_id, rate, comment);
-        return res.status(200).json({ message: 'Rating updated!' });
-      }
-  
-      await ratings.addRating(newRating);
-  
-      res.status(200).json({ message: 'new rating posted!', newRating });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
+  try {
+    const { id: groom_id, customer_id } = req.params;
+    const { rate, comment } = req.body;
+    const newRating = { customer_id, groom_id, rate, comment };
+
+    if (comment.length > 180) {
+      return res.status(400).json({
+        message: 'Please reduce review comment to 180 characters or less.',
+      });
     }
-  });
+
+    if (!(rate <= 5 && rate >= 0)) {
+      return res.status(400).json({ message: 'Rating must be float(0-5)!' });
+    }
+
+    const invalidGroom = await ratings.findGroom(groom_id);
+
+    if (!invalidGroom.length) {
+      return res.status(409).json({
+        message: 'No groomer found by said ID',
+      });
+    }
+
+    const rated = await ratings.findRatingByUsers(customer_id, groom_id);
+
+    if (rated.length) {
+      await ratings.updateRating(customer_id, groom_id, rate, comment);
+      return res.status(200).json({ message: 'Rating updated!' });
+    }
+
+    await ratings.addRating(newRating);
+
+    res.status(200).json({ message: 'new rating posted!', newRating });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;
