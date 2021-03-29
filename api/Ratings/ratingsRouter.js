@@ -93,23 +93,20 @@ router.get('/average', async (req, res) => {
  *           POST/PUT a rating ( if rating relation exists, PUT is triggered)
  ******************************************************************************/
 
-router.post('/', async (req, res) => {
+router.post('/:customer_id', async (req, res) => {
   try {
-    const validNumz = [1, 2, 3, 4, 5];
-    const { id: groom_id } = req.params;
-    const { customer_id, rate, comment } = req.body;
+    const { id: groom_id, customer_id } = req.params;
+    const { rate, comment } = req.body;
     const newRating = { customer_id, groom_id, rate, comment };
 
     if (comment.length > 180) {
-      return res.status(404).json({
+      return res.status(400).json({
         message: 'Please reduce review comment to 180 characters or less.',
       });
     }
-    if (!customer_id || !rate) {
-      return res.status(404).json({ message: 'Missing required fields' });
-    }
-    if (!validNumz.includes(rate)) {
-      return res.status(400).json({ message: 'Rating must be int(1-5)!' });
+
+    if (!(rate <= 5 && rate >= 0)) {
+      return res.status(400).json({ message: 'Rating must be float(0-5)!' });
     }
 
     const invalidGroom = await ratings.findGroom(groom_id);

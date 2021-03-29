@@ -15,7 +15,7 @@ exports.up = async (knex) => {
       .onDelete('cascade')
       .onUpdate('cascade')
       .notNull();
-    table.integer('rate').notNull();
+    table.float('rate').notNull();
     table.string('comment', 180);
   });
 };
