@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 /******************************************************************************
  *                      GET service by id
  ******************************************************************************/
-router.get('/:id', authRequired, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const data = await services.getById(req.params.id);
     res.status(200).json(data);

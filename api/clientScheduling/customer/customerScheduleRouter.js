@@ -65,6 +65,36 @@ router.get('/:groom_id', async (req, res) => {
 });
 
 /******************************************************************************
+ *                      GET appointment by transaction ID
+ ******************************************************************************/
+router.get('/locate/:transaction_id', async (req, res) => {
+  const { customer_id, transaction_id } = req.params;
+  const appointments = await schedule.findAppointmentsByTransaction(
+    customer_id,
+    transaction_id
+  );
+
+  if (!appointments.length) {
+    res.status(400).json({ error: `No appointment found` });
+  } else {
+    res.status(200).json(
+      await Promise.all(
+        appointments.map(async (appointment) =>
+          schedule
+            .getAppointmentItems(appointment.transaction)
+            .then((services) => {
+              formattedServices = services.map(
+                (service) => service.service_name
+              );
+              return { ...appointment, ...{ cart: formattedServices } };
+            })
+        )
+      )
+    );
+  }
+});
+
+/******************************************************************************
  *                      POST new appointment
  ******************************************************************************/
 router.post('/:groom_id', async (req, res) => {
