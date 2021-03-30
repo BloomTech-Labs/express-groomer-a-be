@@ -1,3 +1,4 @@
+const { transaction } = require('../../data/db-config');
 const db = require('../../data/db-config');
 
 /******************************************************************************
@@ -20,6 +21,12 @@ async function appointmentID(customer_id, id) {
     .where('customer_id', customer_id)
     .andWhere('id', id)
     .returning('*');
+}
+
+async function findAppointmentsByTransaction(customer_id, transaction_id){
+  return db('scheduling')
+  .where('customer_id', customer_id)
+  .andWhere('transaction', transaction_id)
 }
 
 async function newAppointment(customer_id, groom_id, startTime) {
@@ -215,6 +222,7 @@ module.exports = {
   findAppointmentsByDate,
   findAppointmentsAppUpdate,
   findAppointmentsAppUpdateCustomer,
+  findAppointmentsByTransaction,
   remove,
   updateConfirmation,
   updateAppointment,
