@@ -67,10 +67,11 @@ router.get('/:groom_id', async (req, res) => {
 /******************************************************************************
  *                      GET appointment by transaction ID
  ******************************************************************************/
- router.get('/locate/:transaction_id', async (req, res) => {
+router.get('/locate/:transaction_id', async (req, res) => {
   const { customer_id, transaction_id } = req.params;
   const appointments = await schedule.findAppointmentsByTransaction(
-    customer_id, transaction_id
+    customer_id,
+    transaction_id
   );
 
   if (!appointments.length) {
